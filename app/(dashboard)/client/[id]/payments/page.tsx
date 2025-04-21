@@ -87,13 +87,13 @@ export default function PaymentsPage() {
     { 
       header: 'Amount Paid', 
       accessorKey: 'amountPaid',
-      cell: (value) => `$${value}` 
+      cell: (value:any) => `$${value}` 
     },
     { header: 'Date Paid', accessorKey: 'datePaid' },
     { 
       header: 'Status', 
       accessorKey: 'status',
-      cell: (value) => {
+      cell: (value:any) => {
         const styles = {
           'Paid': 'bg-green-100 text-green-800',
           'Pending': 'bg-yellow-100 text-yellow-800',
@@ -108,7 +108,7 @@ export default function PaymentsPage() {
   const actions = [
     {
       label: 'View',
-      onClick: (row) => {
+      onClick: (row:any) => {
         console.log('View payment:', row.id);
         // Handle viewing payment details
       },

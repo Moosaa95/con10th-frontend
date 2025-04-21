@@ -545,3 +545,212 @@ export default function AboutTab({ about, experience, skills }: AboutProps) {
 //     </div>
 //   )
 // }
+
+
+
+// "use client"
+
+// import { useState } from "react"
+// import Image from "next/image"
+// import { Heart, MoreHorizontal } from "lucide-react"
+// import ProjectDetail from "./project-detail"
+
+// export default function WorkTab({ work }) {
+//   const [selectedCategory, setSelectedCategory] = useState("all")
+//   const [selectedProject, setSelectedProject] = useState(null)
+//   const [likedProjects, setLikedProjects] = useState([])
+
+//   const filteredProjects =
+//     selectedCategory === "all"
+//       ? work.projects
+//       : work.projects.filter((project) => project.category === selectedCategory)
+
+//   const toggleLike = (projectId) => {
+//     if (likedProjects.includes(projectId)) {
+//       setLikedProjects(likedProjects.filter((id) => id !== projectId))
+//     } else {
+//       setLikedProjects([...likedProjects, projectId])
+//     }
+//   }
+
+//   // If a project is selected, show the project detail view
+//   if (selectedProject) {
+//     return (
+//       <ProjectDetail
+//         project={selectedProject}
+//         onBack={() => setSelectedProject(null)}
+//         isLiked={likedProjects.includes(selectedProject.id)}
+//         onToggleLike={() => toggleLike(selectedProject.id)}
+//       />
+//     )
+//   }
+
+//   return (
+//     <div>
+//       {/* Category filters */}
+//       <div className="flex flex-wrap gap-2 mb-6">
+//         <button
+//           className={`px-3 py-1 text-sm rounded-full ${
+//             selectedCategory === "all" ? "bg-blue-500 text-white" : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+//           }`}
+//           onClick={() => setSelectedCategory("all")}
+//         >
+//           All
+//         </button>
+//         {work.categories.map((category) => (
+//           <button
+//             key={category.id}
+//             className={`px-3 py-1 text-sm rounded-full ${
+//               selectedCategory === category.id
+//                 ? "bg-blue-500 text-white"
+//                 : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+//             }`}
+//             onClick={() => setSelectedCategory(category.id)}
+//           >
+//             {category.name}
+//           </button>
+//         ))}
+//       </div>
+
+//       {/* Projects grid */}
+//       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+//         {filteredProjects.map((project) => (
+//           <div
+//             key={project.id}
+//             className="border border-gray-200 rounded-lg overflow-hidden bg-white hover:shadow-md transition-shadow"
+//           >
+//             <div
+//               className="aspect-w-16 aspect-h-12 relative cursor-pointer"
+//               onClick={() => setSelectedProject(project)}
+//             >
+//               <Image src={project.image || "/placeholder.svg"} alt={project.title} fill className="object-cover" />
+//             </div>
+
+//             <div className="p-4">
+//               <div className="flex justify-between items-start mb-2">
+//                 <h3 className="font-medium text-gray-800 cursor-pointer" onClick={() => setSelectedProject(project)}>
+//                   {project.title}
+//                 </h3>
+//                 <div className="flex space-x-2">
+//                   <button
+//                     className={`${likedProjects.includes(project.id) ? "text-red-500" : "text-gray-400"} hover:text-red-500`}
+//                     onClick={() => toggleLike(project.id)}
+//                   >
+//                     <Heart className="w-5 h-5" fill={likedProjects.includes(project.id) ? "currentColor" : "none"} />
+//                   </button>
+//                   <button className="text-gray-400 hover:text-gray-600">
+//                     <MoreHorizontal className="w-5 h-5" />
+//                   </button>
+//                 </div>
+//               </div>
+
+//               {/* Skills tags */}
+//               <div className="flex flex-wrap gap-2 mt-3">
+//                 {project.skills.map((skill, index) => (
+//                   <span
+//                     key={index}
+//                     className="px-3 py-1 text-xs rounded-full border border-orange-200 text-orange-500 bg-white"
+//                   >
+//                     {skill}
+//                   </span>
+//                 ))}
+//               </div>
+//             </div>
+//           </div>
+//         ))}
+//       </div>
+
+//       {filteredProjects.length === 0 && (
+//         <div className="text-center py-12 bg-gray-50 rounded-lg">
+//           <p className="text-gray-500">No projects found in this category</p>
+//         </div>
+//       )}
+//     </div>
+//   )
+// }
+
+
+
+// "use client"
+
+// import { ArrowLeft, Heart, MoreHorizontal } from "lucide-react"
+// import Image from "next/image"
+
+// export default function ProjectDetail({ project, onBack, isLiked, onToggleLike }) {
+//   return (
+//     <div>
+//       {/* Back button and project title */}
+//       <div className="flex justify-between items-center mb-6">
+//         <button className="flex items-center text-orange-500" onClick={onBack}>
+//           <ArrowLeft className="w-4 h-4 mr-1" />
+//           <span>Back to portfolio</span>
+//         </button>
+//         <h2 className="text-xl font-medium">{project.title}</h2>
+//         <div className="flex space-x-3">
+//           <button className={`${isLiked ? "text-red-500" : "text-gray-400"} hover:text-red-500`} onClick={onToggleLike}>
+//             <Heart className="w-5 h-5" fill={isLiked ? "currentColor" : "none"} />
+//           </button>
+//           <button className="text-gray-400 hover:text-gray-600">
+//             <MoreHorizontal className="w-5 h-5" />
+//           </button>
+//         </div>
+//       </div>
+
+//       {/* Skills tags */}
+//       <div className="flex flex-wrap gap-2 mb-6">
+//         {project.skills.map((skill, index) => (
+//           <span
+//             key={index}
+//             className="px-3 py-1 text-xs rounded-full border border-orange-200 text-orange-500 bg-white"
+//           >
+//             {skill}
+//           </span>
+//         ))}
+//       </div>
+
+//       {/* Project images */}
+//       <div className="space-y-6">
+//         {project.detailImages &&
+//           project.detailImages.map((image, index) => (
+//             <div key={index} className="border border-gray-200 rounded-lg overflow-hidden">
+//               <Image
+//                 src={image.url || "/placeholder.svg"}
+//                 alt={`${project.title} - Image ${index + 1}`}
+//                 width={1200}
+//                 height={800}
+//                 className="w-full h-auto"
+//               />
+//               {image.caption && <div className="p-3 bg-gray-50 text-sm text-gray-600">{image.caption}</div>}
+//             </div>
+//           ))}
+
+//         {/* If no detail images are available, show the main image */}
+//         {(!project.detailImages || project.detailImages.length === 0) && (
+//           <div className="border border-gray-200 rounded-lg overflow-hidden">
+//             <Image
+//               src={project.image || "/placeholder.svg"}
+//               alt={project.title}
+//               width={1200}
+//               height={800}
+//               className="w-full h-auto"
+//             />
+//           </div>
+//         )}
+//       </div>
+
+//       {/* Project description */}
+//       <div className="mt-8">
+//         <h3 className="text-lg font-medium mb-3">Project Overview</h3>
+//         <p className="text-gray-700 mb-6">{project.description}</p>
+
+//         {project.sections &&
+//           project.sections.map((section, index) => (
+//             <div key={index} className="mb-6">
+//               <h4 className="text-md font-medium mb-2">{section.title}</h4>
+//               <p className="text-gray-700">{section.content}</p>
+//             </div>
+//           ))}
+//       </div>
+//     </div>
+//   )
+// }

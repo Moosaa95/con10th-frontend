@@ -1,14 +1,5 @@
 "use client"
 
-import { SelectItem } from "@/components/ui/select"
-
-import { SelectContent } from "@/components/ui/select"
-
-import { SelectValue } from "@/components/ui/select"
-
-import { SelectTrigger } from "@/components/ui/select"
-
-import { Select } from "@/components/ui/select"
 
 import { usePathname } from "next/navigation"
 
@@ -130,11 +121,11 @@ export default function SearchPage() {
           <SearchHeader searchQuery={searchQuery} onSearchChange={handleSearchChange} />
 
           <div className="flex flex-col min-h-screen px-5 pb-[150px]">
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-10 gap-y-14 flex-grow">
+            {/* <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-10 gap-y-14 flex-grow">
               {data && data?.data.map((expert) => (
                 <ExpertCardLink key={expert.id} {...expert} />
               ))}
-            </div>
+            </div> */}
 
             <div className="mt-8 flex justify-end">
               <Pagination currentPage={2} totalPages={3} />

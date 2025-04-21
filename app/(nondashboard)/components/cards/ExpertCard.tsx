@@ -8,7 +8,8 @@ export interface Skill {
 }
 
 export interface ExpertProps {
-  expert_id: string
+  expert_id?: string
+  id?: string
   first_name: string
   last_name: string
   profile_picture: string

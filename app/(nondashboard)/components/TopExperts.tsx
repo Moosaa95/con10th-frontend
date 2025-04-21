@@ -10,51 +10,57 @@ import type { ExpertProps } from "./cards/ExpertCard"
 export default function TopExperts() {
   const experts: ExpertProps[] = [
     {
-      id: "muhammad-basheer-1",
-      name: "Muhammad Basheer",
-      image: "/assets/images/experts/muhammad-basheer-1.jpg",
+      expert_id: "muhammad-basheer-1",
+      first_name: "Muhammad",
+      last_name: "Basheer",
+      profile_picture: "/assets/images/experts/muhammad-basheer-1.jpg",
       verifiedIn: "Design",
-      jobTitle: "Product Designer",
+      title: "Product Designer",
       skills: [{ name: "Figma" }, { name: "Illustration" }, { name: "Aftereffect" }, { name: "Blender" }, { name: "Machinery Learning" }],
     },
     {
-      id: "muhammad-basheer-2",
-      name: "Muhammad Basheer",
-      image: "/assets/images/experts/muhammad-basheer-2.jpg",
+      expert_id: "muhammad-basheer-2",
+      first_name: "Muhammad",
+      last_name: "Basheer",
+      profile_picture: "/assets/images/experts/muhammad-basheer-2.jpg",
       verifiedIn: "Design",
-      jobTitle: "Graphic Designer",
+      title: "Graphic Designer",
       skills: [{ name: "Adobe Photoshop" }, { name: "Illustration" }, { name: "Aftereffect" }],
     },
     {
-      id: "muhammad-basheer-3",
-      name: "Muhammad Basheer",
-      image: "/assets/images/experts/muhammad-basheer-3.jpg",
+      expert_id: "muhammad-basheer-3",
+      first_name: "Muhammad",
+      last_name: "Basheer",
+      profile_picture: "/assets/images/experts/muhammad-basheer-3.jpg",
       verifiedIn: "Project Management",
-      jobTitle: "IT Project Manager",
+      title: "IT Project Manager",
       skills: [{ name: "Scrum Management" }, { name: "Agile Project Management" }],
     },
     {
-      id: "muhammad-basheer-4",
-      name: "Muhammad Basheer",
-      image: "/assets/images/experts/muhammad-basheer-4.jpg",
+      expert_id: "muhammad-basheer-4",
+      first_name: "Muhammad",
+      last_name: "Basheer",
+      profile_picture: "/assets/images/experts/muhammad-basheer-4.jpg",
       verifiedIn: "Project Management",
-      jobTitle: "Agile Project Manager",
+      title: "Agile Project Manager",
       skills: [{ name: "Agile Project Management" }, { name: "Scrum Master Consulting" }],
     },
     {
-      id: "muhammad-basheer-5",
-      name: "Muhammad Basheer",
-      image: "/assets/images/hero/hero-two.png",
+      expert_id: "muhammad-basheer-5",
+      first_name: "Muhammad",
+      last_name: "Basheer",
+      profile_picture: "/assets/images/hero/hero-two.png",
       verifiedIn: "Project Management",
-      jobTitle: "Agile Project Manager",
+      title: "Agile Project Manager",
       skills: [{ name: "Agile Project Management" }, { name: "Scrum Master Consulting" }],
     },
     {
-      id: "muhammad-basheer-6",
-      name: "Muhammad Basheer",
-      image: "/assets/images/hero/hero-two.png",
+      expert_id: "muhammad-basheer-6",
+      first_name: "Muhammad",
+      last_name: "Basheer",
+      profile_picture: "/assets/images/hero/hero-two.png",
       verifiedIn: "Project Management",
-      jobTitle: "Agile Project Manager",
+      title: "Agile Project Manager",
       skills: [{ name: "Agile Project Management" }, { name: "Scrum Master Consulting" }],
     },
   ]
@@ -106,7 +112,7 @@ export default function TopExperts() {
           style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
         >
           {experts.map((expert) => (
-            <ExpertCardLink key={expert.id} {...expert} />
+            <ExpertCardLink key={expert.expert_id} {...expert} />
           ))}
         </div>
 

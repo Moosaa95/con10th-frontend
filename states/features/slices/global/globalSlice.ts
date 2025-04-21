@@ -1,12 +1,25 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
+export interface Availability {
+    open: boolean;
+    busy: boolean;
+}
+
+export interface Experience {
+    all: boolean;
+    entry: boolean;
+    intermediate: boolean;
+    expert: boolean;
+}
 export interface FiltersState {
     priceRange: [number, number] | [null, null]; 
     skill?: string; 
     category?: string; 
     serviceType?: string; 
     rating?: number; 
-    availability?: boolean; 
+    availability?: Availability; 
+    experience?: Experience;
+
     // location?: string; 
     sortBy?: "price" | "rating" | "newest"; // Sorting preference
     // experienceLevel?: "beginner" | "intermediate" | "expert"; // Level of expertise

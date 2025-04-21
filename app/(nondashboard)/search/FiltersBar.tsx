@@ -19,26 +19,48 @@ interface Category {
     code: string;
     name: string;
   }
-  
+
+interface Availability {
+    open: boolean;
+    busy: boolean;
+  }
+interface Experience {
+    entry: boolean;
+    intermediate: boolean;
+    expert: boolean;
+  }
+interface Ratings {
+    all: boolean;
+    five: boolean;
+    four: boolean;
+    three: boolean;
+  }
+interface Filters {
+    category: string;
+    availability: Availability;
+    experience: Experience;
+    location: string;
+    ratings: Ratings;
+  }
 interface FilterSidebarProps {
-    filters: { category: string };
+    filters: FiltersState;
     onFilterChange: (key: string, value: string, extra?: any) => void;
     categories: Category[];
-  }
+}
 
 export default function FilterSidebar({
   filters,
   onFilterChange,
-  categories
+  categories,
 }: FilterSidebarProps) {
 //   const { categories } = useFetchCategories()
 
   const handleCheckboxChange = useCallback(
     (key: string, value: any, isChecked: boolean) => {
       if (isChecked) {
-        onFilterChange(key, value, null)
+        onFilterChange(key, value, '')
       } else {
-        onFilterChange(key, null, null)
+        onFilterChange(key, '', '')
       }
     },
     [onFilterChange]
@@ -67,7 +89,7 @@ export default function FilterSidebar({
             <SelectItem value="all">All</SelectItem>
             {categories &&
               categories.map((category) => (
-                <SelectItem key={category.id} value={category.code}>
+                <SelectItem key={category.code} value={category.code}>
                   {category.name}
                 </SelectItem>
               ))}
@@ -82,7 +104,7 @@ export default function FilterSidebar({
           <div className="flex items-center space-x-2">
             <Checkbox
               id="open-projects"
-              checked={filters.availability === "open"}
+              checked={filters.availability?.open || false}
               onCheckedChange={(checked) =>
                 handleCheckboxChange("availability", "open", !!checked)
               }
@@ -98,7 +120,7 @@ export default function FilterSidebar({
           <div className="flex items-center space-x-2">
             <Checkbox
               id="busy"
-              checked={filters.availability === "busy"}
+              checked={filters.availability?.busy || false}
               onCheckedChange={(checked) =>
                 handleCheckboxChange("availability", "busy", !!checked)
               }
@@ -119,7 +141,7 @@ export default function FilterSidebar({
             <div className="flex items-center space-x-2">
               <Checkbox
                 id="entry-all"
-                checked={filters.experience === "all"}
+                checked={filters.experience?.all === true}
                 onCheckedChange={(checked) =>
                   handleCheckboxChange("experience", "all", !!checked)
                 }
@@ -132,7 +154,7 @@ export default function FilterSidebar({
             <div className="flex items-center space-x-2">
               <Checkbox
                 id="entry"
-                checked={filters.experience === "entry"}
+                checked={filters.experience?.entry === true}
                 onCheckedChange={(checked) =>
                   handleCheckboxChange("experience", "entry", !!checked)
                 }
@@ -145,7 +167,7 @@ export default function FilterSidebar({
             <div className="flex items-center space-x-2">
               <Checkbox
                 id="intermediate"
-                checked={filters.experience === "intermediate"}
+                checked={filters.experience?.intermediate === true}
                 onCheckedChange={(checked) =>
                   handleCheckboxChange("experience", "intermediate", !!checked)
                 }
@@ -160,7 +182,7 @@ export default function FilterSidebar({
       </div>
 
       {/* Location */}
-      <div className="mb-6">
+      {/* <div className="mb-6">
         <h3 className="text-primary-700 font-medium mb-3">Location</h3>
         <div className="relative">
           <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -176,10 +198,10 @@ export default function FilterSidebar({
             }
           />
         </div>
-      </div>
+      </div> */}
 
       {/* Ratings */}
-      <div className="mb-6">
+      {/* <div className="mb-6">
         <h3 className="text-primary-700 font-medium mb-3">Ratings</h3>
         <div className="bg-white border border-gray-200 rounded-lg p-3">
           <div className="grid grid-cols-2 gap-2">
@@ -203,7 +225,7 @@ export default function FilterSidebar({
             ))}
           </div>
         </div>
-      </div>
+      </div> */}
     </div>
   )
 }

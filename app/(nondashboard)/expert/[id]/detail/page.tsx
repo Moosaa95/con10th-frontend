@@ -10,7 +10,7 @@ import { useEffect, useState } from "react"
 
 export default function ExpertDetailsPage() {
     const [activeTab, setActiveTab] = useState("about")
-    const [profileData, setProfileData] = useState(null)
+    const [profileData, setProfileData] = useState(null as any)
     const [loading, setLoading] = useState(true)
     const [liked, setLiked] = useState(false)
     
@@ -21,7 +21,7 @@ export default function ExpertDetailsPage() {
           try {
             // Simulate API call delay
             const data = await fetchProfileData()
-            setProfileData(data)
+            setProfileData(data as any)
             console.log("PROFILE", profileData);
             
           } catch (error) {
@@ -73,7 +73,7 @@ export default function ExpertDetailsPage() {
             {/* page header */}
             <div className="relative rounded-lg overflow-hidden border-2 border-gray-300 gap-4 h-auto">
                 <div className="bg-blue-400 text-white p-6 pt-12 pb-16 text-center relative">
-                    {profileData.tags.map((tag, index) => (
+                    {profileData.tags.map((tag: any, index:any ) => (
                         <div
                             key={index}
                             className={`absolute ${tag.position} ${tag.color} text-black text-xs px-2 py-0.5 rounded transform ${tag.rotation}`}

@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { useState } from "react"
 import WorkDetail from "./Work-Detail"
 import { Heart, MoreHorizontal } from "lucide-react"

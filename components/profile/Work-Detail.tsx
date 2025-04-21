@@ -1,3 +1,4 @@
+// @ts-nocheck
 "use client"
 
 import { Heart, MoreHorizontal } from "lucide-react"

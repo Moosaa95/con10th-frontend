@@ -6,10 +6,9 @@ import { useFetchClientServiceRequestSummaryMutation } from '@/states/features/e
 
 export const useFetchClientServiceRequest = () => {
   const [fetchClientServiceRequestSummary, { isLoading, error }] = useFetchClientServiceRequestSummaryMutation();
-  const [data, setData] = useState<CategoriesProps | null>(null);
+  const [data, setData] = useState<any>(null);
 
   const fetchClientService = async (filters: any = {}) => {
-    console.log("FILTERS HOOKS", filters);
     
     try {
       const response = await fetchClientServiceRequestSummary(filters).unwrap();

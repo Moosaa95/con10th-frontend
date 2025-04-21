@@ -84,12 +84,12 @@ export default function OrdersPage() {
     { 
       header: 'Price', 
       accessorKey: 'price',
-      cell: (value) => `$${value}` 
+      cell: (value:any) => `$${value}` 
     },
     { 
       header: 'Status', 
       accessorKey: 'status',
-      cell: (value) => {
+      cell: (value:any) => {
         const styles = {
           'In Progress': 'bg-yellow-100 text-yellow-800',
           'Completed': 'bg-green-100 text-green-800',
@@ -108,7 +108,7 @@ export default function OrdersPage() {
   const actions = [
     {
       label: 'Open',
-      onClick: (row) => {
+      onClick: (row:any) => {
         console.log('Open order:', row.id);
         // Handle opening the order details
       },

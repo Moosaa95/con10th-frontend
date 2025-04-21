@@ -11,7 +11,7 @@ interface RetrieveUserProps {
 interface UseAuthReturn {
     isAuthenticated: boolean;
     isFetchingUser: boolean;
-    fetchUserProfile: (id: string | number) => Promise<void>;
+    fetchUserProfile: ({ client_id }: { client_id: string }) => Promise<void>;
     user: RetrieveUserProps | null;
 }
 
