@@ -23,16 +23,13 @@ export default function CountrySelector({ value, onValueChange }: CountrySelecto
   const [countries, setCountries] = useState<Country[]>([])
   const [isLoading, setIsLoading] = useState(false)
 
-  // Fetch countries from backend
+  
   useEffect(() => {
     const fetchCountries = async () => {
       setIsLoading(true)
       try {
-        // In a real app, replace with actual API call
-        // const response = await fetch('/api/countries')
-        // const data = await response.json()
-
-        // Mock data for demonstration
+        
+        
         await new Promise((resolve) => setTimeout(resolve, 600))
         const mockCountries: Country[] = [
           { code: "us", name: "United States" },

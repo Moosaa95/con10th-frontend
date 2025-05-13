@@ -4,7 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import DynamicTable from '@/app/(dashboard)/dashboard-components/Table';
 
-// Define your data type
+
 interface Order {
   id: string;
   expertName: string;
@@ -19,7 +19,7 @@ export default function OrdersPage() {
   // State for pagination
   const [currentPage, setCurrentPage] = useState(1);
   
-  // Sample data - in a real app, this would come from an API
+  
   const ordersData: Order[] = [
     {
       id: '#ORD1234',
@@ -76,7 +76,7 @@ export default function OrdersPage() {
     cancelled: ordersData.filter(order => order.status === 'Cancelled').length,
   };
 
-  // Define your columns
+  
   const columns = [
     { header: 'Order ID', accessorKey: 'id' },
     { header: 'Expert Name', accessorKey: 'expertName' },
@@ -104,7 +104,6 @@ export default function OrdersPage() {
     { header: 'Delivery Deadline', accessorKey: 'deliveryDeadline' },
   ];
 
-  // Define your actions
   const actions = [
     {
       label: 'Open',

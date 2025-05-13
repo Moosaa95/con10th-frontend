@@ -4,7 +4,6 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import DynamicTable from '@/app/(dashboard)/dashboard-components/Table';
 
-// Define your data type
 interface Payment {
   id: string;
   serviceSold: string;
@@ -18,7 +17,6 @@ export default function PaymentsPage() {
   // State for pagination
   const [currentPage, setCurrentPage] = useState(1);
   
-  // Sample data - in a real app, this would come from an API
   const paymentsData: Payment[] = [
     {
       id: '#202503010A',
@@ -79,7 +77,6 @@ export default function PaymentsPage() {
     }
   });
 
-  // Define your columns
   const columns = [
     { header: 'Order ID', accessorKey: 'id' },
     { header: 'Service Sold', accessorKey: 'serviceSold' },
@@ -104,7 +101,7 @@ export default function PaymentsPage() {
     },
   ];
 
-  // Define your actions (if needed)
+  
   const actions = [
     {
       label: 'View',

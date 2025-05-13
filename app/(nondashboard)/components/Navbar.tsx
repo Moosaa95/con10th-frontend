@@ -112,7 +112,7 @@ export default function Navbar() {
         {/* Desktop Navigation */}
         <div className="hidden md:flex gap-6 lg:gap-8 font-[400] text-base lg:text-[20px]">
           <Link href="/" className="hover:text-accent-color-700 transition-colors">Home</Link>
-          <Link href="#" className="hover:text-accent-color-700 transition-colors">How it works</Link>
+          <Link href="#how-it-works" className="hover:text-accent-color-700 transition-colors">How it works</Link>
           <Link href="/auth/register" className="text-accent-color-700">Hire an Expert</Link>
         </div>
 

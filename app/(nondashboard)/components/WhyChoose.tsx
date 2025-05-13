@@ -48,7 +48,7 @@ export default function WhyChooseSection() {
 
             {/* CTA Buttons */}
             <div className="flex flex-col sm:flex-row gap-4 pt-4">
-              <Link href="" className="text-center bg-accent-color-700 hover:bg-accent-color-800 text-primary-50 px-8 py-4 gap-3 md:text-lg rounded-full h-auto w-full sm:min-w-[220px]">
+              <Link href="/search" className="text-center bg-accent-color-700 hover:bg-accent-color-800 text-primary-50 px-8 py-4 gap-3 md:text-lg rounded-full h-auto w-full sm:min-w-[220px]">
                 Find Experts
               </Link>
               <Link

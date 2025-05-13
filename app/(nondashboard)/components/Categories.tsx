@@ -8,10 +8,7 @@ import { usePopularCategories } from "@/hooks/usePopularCategories"
 
 export default function PopularCategories() {
   const { popularCategories, isLoading } = usePopularCategories()
-  const scrollContainerRef = useRef<HTMLDivElement>(null)
-
-  console.log("CAT", popularCategories);
-  
+  const scrollContainerRef = useRef<HTMLDivElement>(null)  
 
   const scrollLeft = () => {
     scrollContainerRef.current?.scrollBy({ left: -300, behavior: "smooth" })
@@ -44,7 +41,7 @@ export default function PopularCategories() {
             ))}
           </div>
         ) : (
-          <div ref={scrollContainerRef} className="flex overflow-x-auto gap-4 pb-6 scrollbar-hide snap-x">
+          <div ref={scrollContainerRef} className="flex overflow-x-scroll scroll-smooth scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-100 gap-4 pb-6 scrollbar-hide snap-x">
             {popularCategories.map((category) => (
               <CategoryCard key={category.id} id={category.id} name={category.name} image={category.image} />
             ))}

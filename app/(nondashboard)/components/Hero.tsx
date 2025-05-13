@@ -6,6 +6,7 @@ import Image from "next/image"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Typography } from "@/components/ui/typography/Typography"
+import Link from "next/link"
 
 export default function Hero() {
   return (
@@ -71,9 +72,9 @@ export default function Hero() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.4, delay: 0.5 }}
           >
-            <Button className="w-full max-w-[642.4px] h-12 md:h-14 rounded-full py-3 md:py-4 px-6 md:px-8 gap-2 bg-accent-color-700 text-primary-50 font-[600] text-base md:text-lg leading-6">
+            <Link href="/search" className=" text-center w-full max-w-[642.4px] h-12 md:h-14 rounded-full py-3 md:py-4 px-6 md:px-8 gap-2 bg-accent-color-700 text-primary-50 font-[600] text-base md:text-lg leading-6">
               Browse Experts
-            </Button>
+            </Link>
           </motion.div>
         </motion.div>
 

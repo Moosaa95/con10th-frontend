@@ -1,174 +1,174 @@
-"use client"
+"use client";
 
+import { useEffect, useState } from 'react';
+import { SearchHeader } from './SearchHeader';
+import { Filters, useFilters } from '@/hooks/use-filters';
+import { useSearch } from '@/hooks/use-search';
+import { Card, CardContent } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { ExpertFilters } from './FiltersBar';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { ExpertList } from './ExpertList';
+import { Pagination } from '@/components/ui/pagination';
+import SearchInput from './SearchInput';
+import { useFetchExperts } from '@/hooks/useExpertProfile';
 
-import { usePathname } from "next/navigation"
+export default function SearchResults() {
+   
+  const [experts, setExperts] = useState([])
+  const [currentPage, setCurrentPage] = useState(1)
+  const expertsPerPage = 6
 
-import { useRouter } from "next/navigation"
-
-import { useState, useEffect } from "react"
-import { useSearchParams } from "next/navigation"
-import { useAppDispatch, useAppSelector } from "@/states/hooks"
-import { setFilters } from "@/states/features/slices/global/globalSlice"
-import { debounce } from "lodash"
-import { cleanParams } from "@/lib/utils"
-import { Button } from "@/components/ui/button"
-import { Filter } from "lucide-react"
-import SearchHeader from "./SearchHeader"
-import FilterSidebar from "./FiltersBar"
-import { ExpertCardLink } from "../components/cards/TopExpertCard"
-import Pagination from "@/components/paginations/Pagination"
-import { useFetchExperts } from "@/hooks/useExpertProfile"
-import { useFetchCategories } from "@/hooks/useFetchCategories"
-
-
-
-export default function SearchPage() {
-  const searchParams = useSearchParams()
-  const dispatch = useAppDispatch()
-  const router = useRouter()
-  const pathname = usePathname()
-
+  // Initialize filters and search
+  const { filters, updateFilter, resetFilters } = useFilters()
+  const { searchQuery, setSearchQuery, searchResults } = useSearch(experts)
   const { fetchExperts, data, isLoading, error } = useFetchExperts();
 
-  useEffect(() => {
-    fetchExperts({filters: {expert__email:"hylub@mailinator.com"}});
-  }, []);
+  const getApiFilters = () => {
+    const apiFilters:Filters = {};
+    
+    // Handle availability
+    if (filters.availability === "open") {
+      apiFilters.availability = true;
+    } else if (filters.availability === "busy") {
+      apiFilters.availability = false;
+    }
+    
+    // Handle experience level
+    if (filters.experience && filters.experience.length > 0 && !filters.experience.includes("all")) {
+      const experienceLevels = {
+        "beginner": { min: 0, max: 2 },
+        "intermediate": { min: 2, max: 5 },
+        "expert": { min: 5, max: 100 }
+      };
+      
+      // Use the minimum years for the lowest selected level
+      const selectedLevels = filters.experience.filter(level => level !== "all");
+      const lowestLevel = selectedLevels.reduce((lowest, level) => {
+        if (experienceLevels[level].min < experienceLevels[lowest].min) {
+          return level;
+        }
+        return lowest;
+      }, selectedLevels[0]);
+      
+      apiFilters.years_of_experience = experienceLevels[lowestLevel].min;
+    }
+    
+    // Handle rating
+    if (filters.rating && filters.rating.length > 0 && !filters.rating.includes("all")) {
+      // Extract minimum rating from the lowest selected rating filter
+      const minRating = Math.min(...filters.rating.map((r) => Number.parseInt(r.split("-")[0])));
+      apiFilters.min_rating = minRating;
+    }
+    
+    // Handle category
+    if (filters.category && filters.category !== "all") {
+      apiFilters.category = filters.category;
+    }
+    
+    // Handle skills
+    if (filters.skills && filters.skills !== "all") {
+      apiFilters.skills = [filters.skills]; // Expects an array of skill IDs
+    }
+    
+    // Handle location
+    if (filters.location && filters.location.trim() !== "") {
+      apiFilters.location = filters.location.trim();
+    }
+    
+    return apiFilters;
+  };
 
-  console.log("DATA", data?.data);
+  // Load experts data
+  useEffect(() => {
+    
+    const apiFilters = getApiFilters();
+    
+    fetchExperts(apiFilters);
+  }, [])
+
+  useEffect(() => {
+    if (data && data.data) {
+      setExperts(data.data);
+    }
+  }, [data]);
+
+
+  console.log("EXPERTS", data, 'api filters', experts);
+
   
 
-  const filters = useAppSelector((state) => state.global.filters)
-  const isFilterFullOpen = useAppSelector((state) => state.global.isFilterFullOpen)
 
+  // Calculate pagination
+  const indexOfLastExpert = currentPage * expertsPerPage
+  const indexOfFirstExpert = indexOfLastExpert - expertsPerPage
+  const currentExperts = searchResults.slice(indexOfFirstExpert, indexOfLastExpert)
+  const totalPages = Math.ceil(searchResults.length / expertsPerPage)
 
-  const [searchQuery, setSearchQuery] = useState("")
+  // Change page
+  const paginate = (pageNumber:number) => setCurrentPage(pageNumber)
 
-  // Initialize filters from URL params
-  useEffect(() => {
-    const paramsObject: Record<string, string> = {}
-    searchParams.forEach((value, key) => {
-      paramsObject[key] = value
-    })
-
-    if (Object.keys(paramsObject).length > 0) {
-      dispatch(setFilters(paramsObject))
-    }
-  }, [searchParams, dispatch])
-
-  const updateURL = debounce((newFilters) => {
-    const cleanFilters = cleanParams(newFilters)
-    const updateSearchParams = new URLSearchParams()
-
-    Object.entries(cleanFilters).forEach(([key, value]) => {
-      updateSearchParams.set(key, Array.isArray(value) ? value.join(",") : value.toString())
-    })
-
-    router.push(`${pathname}?${updateSearchParams.toString()}`)
-  }, 300)
-
-  const handleFilterChange = (key: string, value: any, isMin: boolean | null) => {
-    let newValue = value
-
-    if (key === "priceRange") {
-      const currentArrayRange = { ...filters[key] }
-
-      if (isMin !== null) {
-        const index = isMin ? 0 : 1
-        currentArrayRange[index] = value === "any" ? null : Number(value)
-      }
-      newValue = currentArrayRange
-    } else {
-      newValue = value === "any" ? "any" : value
-    }
-
-    const newFilters = { ...filters, [key]: newValue }
-    dispatch(setFilters(newFilters))
-    updateURL(newFilters)
-  }
-
-  const handleSearchChange = (value: string) => {
-    setSearchQuery(value)
-    handleFilterChange("skill", value, null)
-  }
-
-//   const toggleFilterSidebar = () => {
-//     dispatch(setFilterFullOpen(!isFilterFullOpen))
-//   }
-
-  const { categories } = useFetchCategories()
+  
   return (
-    <div
-      className="container w-full mx-auto px-5 flex flex-col"
-    //   style={{
-    //     minHeight: `calc(100vh - ${NAVBAR_HEIGHT}px)`,
-    //     // marginTop: `${NAVBAR_HEIGHT}px`,
-    //   }}
-    >
-      <div>
-        <h1 className="text-3xl font-bold mb-6 text-primary-700">Experts For Hire</h1>
-      </div>
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-        <div
-          className={`col-span-1 h-[1127px] overflow-auto transition-all duration-300 ease-in-out ${
-            1 === 1
-              ? "w-full md:w-[310px] opacity-100 visible"
-              : "w-0 opacity-0 invisible md:w-3/12 md:opacity-100 md:visible"
-          }`}
-        >
-          <FilterSidebar filters={filters} onFilterChange={handleFilterChange} categories={categories} />
+    <div className="container mx-auto px-4 py-6">
+        <div className="flex justify-between items-center mb-6">
+          <h1 className="text-2xl font-bold text-[#09233e]">Experts for Hire</h1>
+          <div className="w-48">
+            <Select value={filters.expertType || "all"} onValueChange={(value) => updateFilter("expertType", value)}>
+              <SelectTrigger className="border-[#e0e4ea] bg-white text-[#09233e]">
+                <SelectValue placeholder="Experts" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="all">Experts</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
         </div>
-        <div className="md:col-span-3 md:w-[1015px]">
-          <SearchHeader searchQuery={searchQuery} onSearchChange={handleSearchChange} />
 
-          <div className="flex flex-col min-h-screen px-5 pb-[150px]">
-            {/* <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-10 gap-y-14 flex-grow">
-              {data && data?.data.map((expert) => (
-                <ExpertCardLink key={expert.id} {...expert} />
-              ))}
-            </div> */}
+        <div className="grid grid-cols-1 gap-6 md:grid-cols-4">
+          {/* Sidebar Filters */}
+          <div className="md:col-span-1">
+            <ExpertFilters filters={filters} updateFilter={updateFilter} resetFilters={resetFilters} />
+          </div>
 
-            <div className="mt-8 flex justify-end">
-              <Pagination currentPage={2} totalPages={3} />
+          {/* Main Content */}
+          <div className="md:col-span-3">
+            <SearchHeader />
+            <SearchInput />
+
+            {/* Results count */}
+            <div className="mb-4 text-[#8292aa]">
+              Showing {searchResults.length > 0 ? indexOfFirstExpert + 1 : 0} -{" "}
+              {Math.min(indexOfLastExpert, searchResults.length)} of {searchResults.length} experts
             </div>
-          </div>
 
-        </div>
+            {/* Expert Cards Grid */}
+            <ExpertList experts={currentExperts} />
 
-      </div>
-
-      {/* <div className="flex justify-between items-center mb-6">
-        <Button variant="outline" className="md:hidden flex items-center gap-2" onClick={() => {}}>
-          <Filter className="h-4 w-4" />
-          Filter
-        </Button>
-      </div>
-
-      <div className="flex justify-between flex-1 overflow-hidden gap-6">
-        <div
-          className={`h-full overflow-auto transition-all duration-300 ease-in-out ${
-            isFilterFullOpen
-              ? "w-full md:w-3/12 opacity-100 visible"
-              : "w-0 opacity-0 invisible md:w-3/12 md:opacity-100 md:visible"
-          }`}
-        >
-          <FilterSidebar filters={filters} onFilterChange={handleFilterChange} />
-        </div>
-        <div
-          className={`h-full overflow-auto transition-all duration-300 ease-in-out ${
-            isFilterFullOpen
-              ? "w-0 opacity-0 invisible md:w-9/12 md:opacity-100 md:visible"
-              : "w-full md:w-9/12 opacity-100 visible"
-          }`}
-        >
-          <SearchHeader searchQuery={searchQuery} onSearchChange={handleSearchChange} />
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 px-5">
-            {mockExperts.map((expert) => (
-              <ExpertCard key={expert.id} {...expert} />
-            ))}
+            {/* Pagination */}
+            {searchResults.length > 0 ? (
+              <Pagination
+                className="mt-8"
+                currentPage={currentPage}
+                totalPages={totalPages}
+                onPageChange={paginate}
+                prevPage={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+                nextPage={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
+              />
+            ) : (
+              <Card className="mt-8 text-center py-12 bg-white">
+                <CardContent className="pt-6">
+                  <h3 className="text-xl font-medium text-[#09233e]">No experts found</h3>
+                  <p className="mt-2 text-[#8292aa]">Try adjusting your filters or search term</p>
+                  <Button onClick={resetFilters} className="mt-4 bg-[#ff5d00] hover:bg-[#ff5d00]/90">
+                    Reset Filters
+                  </Button>
+                </CardContent>
+              </Card>
+            )}
           </div>
         </div>
-      </div> */}
-    </div>
-  )
+      </div>
+  );
 }
+

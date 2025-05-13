@@ -19,7 +19,7 @@ export const useFetchClientServiceRequest = () => {
   };
 
   return {
-    fetchClientService, // function you call with filters
+    fetchClientService, 
     data,         // response data
     isLoading,
     error,

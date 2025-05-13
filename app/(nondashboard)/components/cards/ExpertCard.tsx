@@ -1,66 +1,65 @@
-"use client"
-
+import Link from "next/link"
 import Image from "next/image"
-import { CheckCircle, Briefcase } from "lucide-react"
+import { Briefcase, CheckCircle } from "lucide-react"
+import { Card, CardContent } from "@/components/ui/card"
+import { Badge } from "@/components/ui/badge"
+import type { Expert } from "@/types/expert"
 
-export interface Skill {
-  name: string
+interface ExpertCardProps {
+  expert: Expert
 }
 
-export interface ExpertProps {
-  expert_id?: string
-  id?: string
-  first_name: string
-  last_name: string
-  profile_picture: string
-  verifiedIn?: string
-  title: string
-  skills: Skill[]
-  className?: string
-  onClick?: () => void
-}
+export function ExpertCard({ expert }: ExpertCardProps) {
+  console.log("CARDS===========", expert)
+  const fullName = `${expert.first_name} ${expert.last_name}`
 
-export function ExpertCard({ expert_id, first_name, last_name, profile_picture, verifiedIn, title, skills, className = "", onClick }: ExpertProps) {
-  
   return (
-    <div
-      className={`min-w-[220px] sm:min-w-[260px] flex-shrink-0 bg-white rounded-md border border-gray-400 overflow-hidden snap-start hover:shadow-sm transition-shadow duration-200 ${className}`}
-      onClick={onClick}
-    >
-      {/* Image */}
-      <div className="aspect-square w-full relative">
-        <Image src={profile_picture} alt={first_name} fill className="object-cover" />
-      </div>
-
-      <div className="p-4">
-        {/* Name */}
-        <h3 className="text-accent-color-700 font-bold text-sm md:text-lg mb-1">{first_name} {last_name}</h3>
-
-        {/* Verified Badge */}
-        <div className="flex items-center text-xs text-green-600 mb-1">
-          <CheckCircle className="h-3 w-3 mr-1 flex-shrink-0" />
-          <span>Verified Expert in {title}</span>
+    <Link href={`/expert/${expert.expert_id}`} className="block transition-transform hover:scale-[1.02]">
+      <Card className="overflow-hidden border-gray-400 bg-white w-[309px]" style={{ minHeight: "480px" }}>
+        <div className="aspect-w-4 aspect-h-3 p-5">
+          <Image
+            src={expert.profile_picture || "/placeholder.svg"}
+            alt={fullName}
+            width={269}
+            height={232}
+            className="h-full w-full object-cover"
+          />
         </div>
+        <CardContent className="px-5 space-y-5">
+          <div className="space-y-2">
+            <h3 className="text-lg font-bold text-accent-color-700">{fullName}</h3>
 
-        {/* Job Title */}
-        <div className="flex items-center text-xs text-gray-600 mb-2">
-          <Briefcase className="h-3 w-3 mr-1 flex-shrink-0" />
-          <span>{title}</span>
-        </div>
+            <div className="flex items-center gap-2">
+              <div className="text-[#1FC16B]">
+                <CheckCircle className="h-4 w-4" />
+              </div>
+              <span className="text-sm font-normal text-[#1FC16B]">Verified Expert in {expert.title}</span>
+            </div>
 
-        {/* Skills */}
-        <div>
-          <p className="text-xs text-gray-500 mb-1.5">Skills</p>
-          <div className="flex flex-wrap gap-1.5">
-            {skills.slice(0,4).map((skill, index) => (
-              <span key={index} className="px-2 py-0.5 text-xs rounded-full border border-orange-400 text-orange-500">
-                {skill.name.substring(0, 6)}
-              </span>
-            ))}
+            <div className="flex items-center text-sm text-[#384853] gap-2">
+              <div className="text-primary-700">
+                <Briefcase className="h-4 w-4" />
+              </div>
+              <span className="font-medium text-sm">{expert.title}</span>
+            </div>
           </div>
-        </div>
-      </div>
-    </div>
+
+          <div>
+            <h4 className="mb-2 text-sm text-[#384853]">Skills</h4>
+            <div className="flex flex-wrap gap-[5px]">
+              {expert.skills.map((skill, index) => (
+                <Badge
+                  key={index}
+                  variant="outline"
+                  className="rounded-[100px] border-accent-color-700 px-4 py-2 text-sm  text-accent-color-700 font-normal bg-white"
+                >
+                  {skill.name}
+                </Badge>
+              ))}
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+    </Link>
   )
 }
-

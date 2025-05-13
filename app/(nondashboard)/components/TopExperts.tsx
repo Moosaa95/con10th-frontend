@@ -4,17 +4,17 @@ import { useRef } from "react"
 import Link from "next/link"
 import { ChevronLeft, ChevronRight } from "lucide-react"
 import { Button } from "@/components/ui/button"
-import { ExpertCardLink } from "./cards/TopExpertCard"
-import type { ExpertProps } from "./cards/ExpertCard"
+import { Expert } from "@/types/expert"
+import { ExpertCard } from "./cards/ExpertCard"
+
 
 export default function TopExperts() {
-  const experts: ExpertProps[] = [
+  const experts: Expert[] = [
     {
       expert_id: "muhammad-basheer-1",
       first_name: "Muhammad",
       last_name: "Basheer",
       profile_picture: "/assets/images/experts/muhammad-basheer-1.jpg",
-      verifiedIn: "Design",
       title: "Product Designer",
       skills: [{ name: "Figma" }, { name: "Illustration" }, { name: "Aftereffect" }, { name: "Blender" }, { name: "Machinery Learning" }],
     },
@@ -23,7 +23,6 @@ export default function TopExperts() {
       first_name: "Muhammad",
       last_name: "Basheer",
       profile_picture: "/assets/images/experts/muhammad-basheer-2.jpg",
-      verifiedIn: "Design",
       title: "Graphic Designer",
       skills: [{ name: "Adobe Photoshop" }, { name: "Illustration" }, { name: "Aftereffect" }],
     },
@@ -32,7 +31,6 @@ export default function TopExperts() {
       first_name: "Muhammad",
       last_name: "Basheer",
       profile_picture: "/assets/images/experts/muhammad-basheer-3.jpg",
-      verifiedIn: "Project Management",
       title: "IT Project Manager",
       skills: [{ name: "Scrum Management" }, { name: "Agile Project Management" }],
     },
@@ -41,7 +39,6 @@ export default function TopExperts() {
       first_name: "Muhammad",
       last_name: "Basheer",
       profile_picture: "/assets/images/experts/muhammad-basheer-4.jpg",
-      verifiedIn: "Project Management",
       title: "Agile Project Manager",
       skills: [{ name: "Agile Project Management" }, { name: "Scrum Master Consulting" }],
     },
@@ -50,7 +47,6 @@ export default function TopExperts() {
       first_name: "Muhammad",
       last_name: "Basheer",
       profile_picture: "/assets/images/hero/hero-two.png",
-      verifiedIn: "Project Management",
       title: "Agile Project Manager",
       skills: [{ name: "Agile Project Management" }, { name: "Scrum Master Consulting" }],
     },
@@ -59,12 +55,14 @@ export default function TopExperts() {
       first_name: "Muhammad",
       last_name: "Basheer",
       profile_picture: "/assets/images/hero/hero-two.png",
-      verifiedIn: "Project Management",
       title: "Agile Project Manager",
       skills: [{ name: "Agile Project Management" }, { name: "Scrum Master Consulting" }],
     },
   ]
 
+
+  console.log("EXPERTS TOP 3", experts);
+  
   const scrollContainerRef = useRef<HTMLDivElement>(null)
 
   const scrollLeft = () => {
@@ -112,13 +110,13 @@ export default function TopExperts() {
           style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
         >
           {experts.map((expert) => (
-            <ExpertCardLink key={expert.expert_id} {...expert} />
+            <ExpertCard key={expert.expert_id} expert={expert} />
           ))}
         </div>
 
         <div className="mt-4">
           <Link
-            href="/experts"
+            href="/search"
             className="inline-flex items-center text-xs text-primary-700 font-medium hover:underline"
           >
             See all Experts
