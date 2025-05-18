@@ -89,7 +89,7 @@ export default function useRegister() {
 			...formData,
 			password: finalData.password
 			};
-		
+		console.log("Final Data: ", completeData);
 			const {message, status, user_email} = await register(completeData).unwrap();
 			
 			if (status) {

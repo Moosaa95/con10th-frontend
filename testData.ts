@@ -1,0 +1,306 @@
+import { Expert, IPromo } from "./types/expert";
+
+export const experts:Expert[] = [
+  {
+    expert_id: "muhammad-basheer-1",
+    first_name: "Muhammad",
+    last_name: "Basheer",
+    profile_picture: "/assets/images/experts/expert.png",
+    title: "Product Designer",
+    skills: [{ name: "Figma" }, { name: "Illustration" }, { name: "Aftereffect" }, { name: "Blender" }, { name: "Machinery Learning" }],
+    category: "Design",
+    rating: 4.5,
+    reviews: 120,
+    location: "Lahore, Pakistan",
+    hourly_rate: 20,
+    is_available: true,
+    response_time: "Within 24 hours",
+    joined_date: "2023-01-15",
+    experience_level: "Expert",
+    bio: "Muhammad is a highly skilled product designer with a passion for creating user-friendly interfaces. He has a strong background in Figma and illustration, and he is also proficient in After Effects and Blender. With his expertise in machinery learning, he can create innovative designs that enhance user experience.",
+    email: "mail@mail.com",
+    portfolio: [
+      {
+        title: "E-commerce App Design",
+        description: "A modern and user-friendly e-commerce app design.",
+        image: "/assets/images/experts/expert.png",
+      },
+      {
+        title: "Landing Page Design",
+        description: "A responsive landing page design for a tech startup.",
+        image: "/assets/images/experts/expert.png",
+      },
+    ],
+    phone: "+92 300 1234567",
+  },
+  {
+    expert_id: "muhammad-basheer-2",
+    first_name: "Muhammad",
+    last_name: "Basheer",
+    profile_picture: "/assets/images/experts/expert.png",
+    title: "Product Designer",
+    skills: [{ name: "Figma" }, { name: "Illustration" }, { name: "Aftereffect" }, { name: "Blender" }, { name: "Machinery Learning" }],
+    category: "Design",
+    rating: 4.5,
+    reviews: 120,
+    location: "Lahore, Pakistan",
+    hourly_rate: 20,
+    is_available: true,
+    response_time: "Within 24 hours",
+    joined_date: "2023-01-15",
+    experience_level: "Expert",
+    bio: "Muhammad is a highly skilled product designer with a passion for creating user-friendly interfaces. He has a strong background in Figma and illustration, and he is also proficient in After Effects and Blender. With his expertise in machinery learning, he can create innovative designs that enhance user experience.",
+    email: "mail@mail.com",
+    portfolio: [
+      {
+        title: "E-commerce App Design",
+        description: "A modern and user-friendly e-commerce app design.",
+        image: "/assets/images/experts/expert.png",
+      },
+      {
+        title: "Landing Page Design",
+        description: "A responsive landing page design for a tech startup.",
+        image: "/assets/images/experts/expert.png",
+      },
+    ],
+    phone: "+92 300 1234567",
+  },
+  {
+    expert_id: "muhammad-basheer-3",
+    first_name: "Muhammad",
+    last_name: "Basheer",
+    profile_picture: "/assets/images/experts/expert.png",
+    title: "Product Designer",
+    skills: [{ name: "Figma" }, { name: "Illustration" }, { name: "Aftereffect" }, { name: "Blender" }, { name: "Machinery Learning" }],
+    category: "Design",
+    rating: 4.5,
+    reviews: 120,
+    location: "Lahore, Pakistan",
+    hourly_rate: 20,
+    is_available: true,
+    response_time: "Within 24 hours",
+    joined_date: "2023-01-15",
+    experience_level: "Expert",
+    bio: "Muhammad is a highly skilled product designer with a passion for creating user-friendly interfaces. He has a strong background in Figma and illustration, and he is also proficient in After Effects and Blender. With his expertise in machinery learning, he can create innovative designs that enhance user experience.",
+    email: "mail@mail.com",
+    portfolio: [
+      {
+        title: "E-commerce App Design",
+        description: "A modern and user-friendly e-commerce app design.",
+        image: "/assets/images/experts/expert.png",
+      },
+      {
+        title: "Landing Page Design",
+        description: "A responsive landing page design for a tech startup.",
+        image: "/assets/images/experts/expert.png",
+      },
+    ],
+    phone: "+92 300 1234567",
+  },
+  {
+    expert_id: "muhammad-basheer-4",
+    first_name: "Muhammad",
+    last_name: "Basheer",
+    profile_picture: "/assets/images/experts/expert.png",
+    title: "Product Designer",
+    skills: [{ name: "Figma" }, { name: "Illustration" }, { name: "Aftereffect" }, { name: "Blender" }, { name: "Machinery Learning" }],
+    category: "Design",
+    rating: 4.5,
+    reviews: 120,
+    location: "Lahore, Pakistan",
+    hourly_rate: 20,
+    is_available: true,
+    response_time: "Within 24 hours",
+    joined_date: "2023-01-15",
+    experience_level: "Expert",
+    bio: "Muhammad is a highly skilled product designer with a passion for creating user-friendly interfaces. He has a strong background in Figma and illustration, and he is also proficient in After Effects and Blender. With his expertise in machinery learning, he can create innovative designs that enhance user experience.",
+    email: "mail@mail.com",
+    portfolio: [
+      {
+        title: "E-commerce App Design",
+        description: "A modern and user-friendly e-commerce app design.",
+        image: "/assets/images/experts/expert.png",
+      },
+      {
+        title: "Landing Page Design",
+        description: "A responsive landing page design for a tech startup.",
+        image: "/assets/images/experts/expert.png",
+      },
+    ],
+    phone: "+92 300 1234567",
+  },
+  {
+    expert_id: "muhammad-basheer-5",
+    first_name: "Muhammad",
+    last_name: "Basheer",
+    profile_picture: "/assets/images/experts/expert.png",
+    title: "Product Designer",
+    skills: [{ name: "Figma" }, { name: "Illustration" }, { name: "Aftereffect" }, { name: "Blender" }, { name: "Machinery Learning" }],
+    category: "Design",
+    rating: 4.5,
+    reviews: 120,
+    location: "Lahore, Pakistan",
+    hourly_rate: 20,
+    is_available: true,
+    response_time: "Within 24 hours",
+    joined_date: "2023-01-15",
+    experience_level: "Expert",
+    bio: "Muhammad is a highly skilled product designer with a passion for creating user-friendly interfaces. He has a strong background in Figma and illustration, and he is also proficient in After Effects and Blender. With his expertise in machinery learning, he can create innovative designs that enhance user experience.",
+    email: "mail@mail.com",
+    portfolio: [
+      {
+        title: "E-commerce App Design",
+        description: "A modern and user-friendly e-commerce app design.",
+        image: "/assets/images/experts/expert.png",
+      },
+      {
+        title: "Landing Page Design",
+        description: "A responsive landing page design for a tech startup.",
+        image: "/assets/images/experts/expert.png",
+      },
+    ],
+    phone: "+92 300 1234567",
+  },
+  {
+    expert_id: "muhammad-basheer-6",
+    first_name: "Muhammad",
+    last_name: "Basheer",
+    profile_picture: "/assets/images/experts/expert.png",
+    title: "Product Designer",
+    skills: [{ name: "Figma" }, { name: "Illustration" }, { name: "Aftereffect" }, { name: "Blender" }, { name: "Machinery Learning" }],
+    category: "Design",
+    rating: 4.5,
+    reviews: 120,
+    location: "Lahore, Pakistan",
+    hourly_rate: 20,
+    is_available: true,
+    response_time: "Within 24 hours",
+    joined_date: "2023-01-15",
+    experience_level: "Expert",
+    bio: "Muhammad is a highly skilled product designer with a passion for creating user-friendly interfaces. He has a strong background in Figma and illustration, and he is also proficient in After Effects and Blender. With his expertise in machinery learning, he can create innovative designs that enhance user experience.",
+    email: "mail@mail.com",
+    portfolio: [
+      {
+        title: "E-commerce App Design",
+        description: "A modern and user-friendly e-commerce app design.",
+        image: "/assets/images/experts/expert.png",
+      },
+      {
+        title: "Landing Page Design",
+        description: "A responsive landing page design for a tech startup.",
+        image: "/assets/images/experts/expert.png",
+      },
+    ],
+    phone: "+92 300 1234567",
+  },
+  {
+    expert_id: "muhammad-basheer-7",
+    first_name: "Muhammad",
+    last_name: "Basheer",
+    profile_picture: "/assets/images/experts/expert.png",
+    title: "Product Designer",
+    skills: [{ name: "Figma" }, { name: "Illustration" }, { name: "Aftereffect" }, { name: "Blender" }, { name: "Machinery Learning" }],
+    category: "Design",
+    rating: 4.5,
+    reviews: 120,
+    location: "Lahore, Pakistan",
+    hourly_rate: 20,
+    is_available: true,
+    response_time: "Within 24 hours",
+    joined_date: "2023-01-15",
+    experience_level: "Expert",
+    bio: "Muhammad is a highly skilled product designer with a passion for creating user-friendly interfaces. He has a strong background in Figma and illustration, and he is also proficient in After Effects and Blender. With his expertise in machinery learning, he can create innovative designs that enhance user experience.",
+    email: "mail@mail.com",
+    portfolio: [
+      {
+        title: "E-commerce App Design",
+        description: "A modern and user-friendly e-commerce app design.",
+        image: "/assets/images/experts/expert.png",
+      },
+      {
+        title: "Landing Page Design",
+        description: "A responsive landing page design for a tech startup.",
+        image: "/assets/images/experts/expert.png",
+      },
+    ],
+    phone: "+92 300 1234567",
+  },
+]
+
+export const promos: IPromo[] = [
+  {
+    label: "For Clients",
+    title: "Find the perfect expert for your project",
+    description: "Browse through our curated list of experts and find the right fit for your needs.",
+    buttonText: "Find Experts",
+    buttonLink: "/experts",
+    imageSrc: "/assets/images/experts/expert.png",
+    variant: "client",
+  },
+  {
+    label: "For Experts",
+    title: "Join our community of professionals",
+    description: "Sign up today and start showcasing your skills to potential clients.",
+    buttonText: "Join Now",
+    buttonLink: "/join",
+    imageSrc: "/assets/images/experts/expert.png",
+    variant: "expert",
+  },
+  {
+    label: "For Clients",
+    title: "Find the perfect expert for your project",
+    description: "Browse through our curated list of experts and find the right fit for your needs.",
+    buttonText: "Find Experts",
+    buttonLink: "/experts",
+    imageSrc: "/assets/images/experts/expert.png",
+    variant: "client",
+  },
+  {
+    label: "For Experts",
+    title: "Join our community of professionals",
+    description: "Sign up today and start showcasing your skills to potential clients.",
+    buttonText: "Join Now",
+    buttonLink: "/join",
+    imageSrc: "/assets/images/experts/expert.png",
+    variant: "expert",
+  },
+  {
+    label: "For Clients",
+    title: "Find the perfect expert for your project",
+    description: "Browse through our curated list of experts and find the right fit for your needs.",
+    buttonText: "Find Experts",
+    buttonLink: "/experts",
+    imageSrc: "/assets/images/experts/expert.png",
+    variant: "client",
+  },
+  {
+    label: "For Experts",
+    title: "Join our community of professionals",
+    description: "Sign up today and start showcasing your skills to potential clients.",
+    buttonText: "Join Now",
+    buttonLink: "/join",
+    imageSrc: "/assets/images/experts/expert.png",
+    variant: "expert",
+  },
+]
+// {
+//   expert_id: string;
+//   first_name: string;
+//   last_name: string;
+//   title: string;
+//   category: string;
+//   skills: SkillItem[];
+//   profile_picture: string;
+//   rating: number;
+//   reviews: number;
+//   location: string;
+//   hourly_rate: number;
+//   is_available: boolean;
+//   response_time: string;
+//   joined_date: string;
+//   experience_level: string;
+//   bio: string;
+//   email: string;
+//   phone: string;
+//   portfolio ?: PortfolioItem[];
+// }

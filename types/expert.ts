@@ -62,3 +62,13 @@ export interface User {
     portfolio?: PortfolioItem[];
   }
   
+export interface IPromo {
+  variant: "client" | "expert"
+  label: string
+  title: string
+  description: string
+  buttonText: string
+  buttonLink: string
+  imageSrc: string
+  imageAlt?: string
+}

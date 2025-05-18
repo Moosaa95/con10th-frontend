@@ -37,14 +37,15 @@ const authApiSlice = apiSlice.injectEndpoints({
 			}),
 			invalidatesTags: ["Auth", "User"],
 			async onQueryStarted(arg, { dispatch, queryFulfilled }) {
-                try {
-                  await queryFulfilled;
-                  dispatch(setAuth());
-                  console.log('Logged in successfully');
-                } catch (err) {
-                  console.error('Failed to login');
-                }
-            }
+				try {
+					await queryFulfilled;
+					dispatch(setAuth());
+					console.log('Logged in successfully');
+				} catch (err) {
+			
+					console.error(`Failed to login`, err);
+				}
+       }
 		}),
 		
 		logout: builder.mutation({

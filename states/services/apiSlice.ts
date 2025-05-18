@@ -34,7 +34,6 @@ const baseQuery = fetchBaseQuery({
         const csrftoken = getCookie('csrftoken');
         if (csrftoken) {
             headers.set('X-CSRFToken', csrftoken);
-            
         }
 
     

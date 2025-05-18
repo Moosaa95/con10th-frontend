@@ -18,17 +18,22 @@ interface UseAuthReturn {
 export default function useAuth(): UseAuthReturn {
     // const isAuthenticated = useAppSelector(selectIsAuthenticated);
     // const isLoading = useAppSelector(selectIsLoading);
-    const [getClientProfile, { isLoading, isError }] = useGetClientProfileMutation();
+    // const [getClientProfile, { isLoading, isError }] = useGetClientProfileMutation();
     const [user, setUser] = useState<RetrieveUserProps | null>(null);
-    const isAuthenticated = false;
+    const isAuthenticated = true;
     const isFetchingUser = false;
 
     const fetchUserProfile = async (filters: any) => {
         // const { client_id } = filters;
         try {
-            const userProfile = await getClientProfile(filters).unwrap();
-            setUser(userProfile);
-            console.log("Fetched User Profile:", userProfile);
+            // const userProfile = await getClientProfile(filters).unwrap();
+            setUser({
+                id: 1,
+                email: 'khalifaumar308@gmail.com',
+                first_name: 'Umar',
+                last_name: 'Aminu',
+});
+            // console.log("Fetched User Profile:", userProfile);
         } catch (error) {
             console.error('Failed to fetch user profile:', error);
         }

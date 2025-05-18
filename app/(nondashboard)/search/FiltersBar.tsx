@@ -14,6 +14,7 @@ import { Filters } from "@/hooks/use-filters"
 
 interface ExpertFiltersProps {
   filters: Filters
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   updateFilter: (key: string, value: any) => void
   resetFilters: () => void
 }
