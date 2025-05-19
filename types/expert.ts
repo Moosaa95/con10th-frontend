@@ -72,3 +72,13 @@ export interface IPromo {
   imageSrc: string
   imageAlt?: string
 }
+
+export interface IOrder {
+  id: string;
+  expertName: string;
+  serviceOrdered: string;
+  price: number;
+  status: string;
+  orderDate: string;
+  deliveryDeadline: string;
+}

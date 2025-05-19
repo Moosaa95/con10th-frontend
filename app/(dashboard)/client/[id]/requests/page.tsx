@@ -1,73 +1,29 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import DynamicTable from '@/app/(dashboard)/dashboard-components/Table';
+import { ordersData } from '@/testData';
 
-
-interface Order {
-  id: string;
-  expertName: string;
-  serviceOrdered: string;
-  price: number;
-  status: string;
-  orderDate: string;
-  deliveryDeadline: string;
-}
 
 export default function OrdersPage() {
-  // State for pagination
+  // Pagination state
   const [currentPage, setCurrentPage] = useState(1);
-  
-  
-  const ordersData: Order[] = [
-    {
-      id: '#ORD1234',
-      expertName: 'John Doe',
-      serviceOrdered: 'Logo Design',
-      price: 150,
-      status: 'In Progress',
-      orderDate: 'Mar 10, 2025',
-      deliveryDeadline: 'Mar 15, 2025',
-    },
-    {
-      id: '#ORD1235',
-      expertName: 'Jane Smith',
-      serviceOrdered: 'Website Design',
-      price: 500,
-      status: 'Cancelled',
-      orderDate: 'Mar 8, 2025',
-      deliveryDeadline: 'Mar 14, 2025',
-    },
-    {
-      id: '#ORD1236',
-      expertName: 'Mike Brown',
-      serviceOrdered: 'Video Editing',
-      price: 250,
-      status: 'New Order',
-      orderDate: 'Mar 9, 2025',
-      deliveryDeadline: 'Mar 13, 2025',
-    },
-    {
-      id: '#ORD1237',
-      expertName: 'Victor Sule',
-      serviceOrdered: 'Social Media Ads',
-      price: 200,
-      status: 'Completed',
-      orderDate: 'Mar 7, 2025',
-      deliveryDeadline: 'Mar 13, 2025',
-    },
-    {
-      id: '#ORD1238',
-      expertName: 'Sarah Johnson',
-      serviceOrdered: 'Graphic Design',
-      price: 150,
-      status: 'Completed',
-      orderDate: 'Mar 7, 2025',
-      deliveryDeadline: 'Mar 12, 2025',
-    },
-  ];
+  const [pageSize, setPageSize] = useState(10);
+
+
+
+  // Calculate pagination
+  const totalItems = ordersData.length;
+  const totalPages = Math.ceil(totalItems / pageSize);
+
+  // Get current page data
+  const currentData = useMemo(() => {
+    const start = (currentPage - 1) * pageSize;
+    const end = start + pageSize;
+    return ordersData.slice(start, end);
+  }, [currentPage, pageSize,]);
 
   // Count orders by status
   const orderCounts = {
@@ -77,29 +33,37 @@ export default function OrdersPage() {
     cancelled: ordersData.filter(order => order.status === 'Cancelled').length,
   };
 
-  
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page);
+  };
+
+  const handlePageSizeChange = (size: number) => {
+    setPageSize(size);
+    setCurrentPage(1); // Reset to first page when changing page size
+  };
+
   const columns = [
     { header: 'Order ID', accessorKey: 'id' },
     { header: 'Expert Name', accessorKey: 'expertName' },
     { header: 'Service Ordered', accessorKey: 'serviceOrdered' },
-    { 
-      header: 'Price', 
+    {
+      header: 'Price',
       accessorKey: 'price',
-      cell: (value:any) => `$${value}` 
+      cell: (value: any) => `$${value}`,
     },
-    { 
-      header: 'Status', 
+    {
+      header: 'Status',
       accessorKey: 'status',
-      cell: (value:any) => {
+      cell: (value: any) => {
         const styles = {
           'In Progress': 'bg-yellow-100 text-yellow-800',
           'Completed': 'bg-green-100 text-green-800',
           'Cancelled': 'bg-red-100 text-red-800',
           'New Order': 'bg-blue-100 text-blue-800',
         };
-        
+
         return <Badge className={styles[value as keyof typeof styles] || ''}>{value}</Badge>;
-      }
+      },
     },
     { header: 'Order Date', accessorKey: 'orderDate' },
     { header: 'Delivery Deadline', accessorKey: 'deliveryDeadline' },
@@ -108,7 +72,7 @@ export default function OrdersPage() {
   const actions = [
     {
       label: 'Open',
-      onClick: (row:any) => {
+      onClick: (row: any) => {
         console.log('Open order:', row.id);
         // Handle opening the order details
       },
@@ -116,59 +80,59 @@ export default function OrdersPage() {
   ];
 
   return (
-    <div className="container mx-auto p-6">
-      <h1 className="text-2xl font-bold mb-6">Orders</h1>
-      
-      <h2 className="text-xl font-semibold mb-4">Orders Summary</h2>
-      
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
+    <div className="container mx-auto p-6 space-y-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
         <Card>
           <CardHeader className="pb-2">
-            <CardTitle className="text-4xl font-bold">{orderCounts.total}</CardTitle>
+            <CardTitle className="text-sm font-medium text-muted-foreground">Total Orders</CardTitle>
           </CardHeader>
           <CardContent>
-            <p className="text-gray-500">Total Orders</p>
+            <div className="text-2xl font-bold">{orderCounts.total}</div>
           </CardContent>
         </Card>
-        
         <Card>
           <CardHeader className="pb-2">
-            <CardTitle className="text-4xl font-bold">{orderCounts.completed}</CardTitle>
+            <CardTitle className="text-sm font-medium text-muted-foreground">Active Orders</CardTitle>
           </CardHeader>
           <CardContent>
-            <p className="text-gray-500">Completed Orders</p>
+            <div className="text-2xl font-bold text-blue-600">{orderCounts.active}</div>
           </CardContent>
         </Card>
-        
         <Card>
           <CardHeader className="pb-2">
-            <CardTitle className="text-4xl font-bold">{orderCounts.active}</CardTitle>
+            <CardTitle className="text-sm font-medium text-muted-foreground">Completed Orders</CardTitle>
           </CardHeader>
           <CardContent>
-            <p className="text-gray-500">Active Orders</p>
+            <div className="text-2xl font-bold text-green-600">{orderCounts.completed}</div>
           </CardContent>
         </Card>
-        
         <Card>
           <CardHeader className="pb-2">
-            <CardTitle className="text-4xl font-bold">{orderCounts.cancelled}</CardTitle>
+            <CardTitle className="text-sm font-medium text-muted-foreground">Cancelled Orders</CardTitle>
           </CardHeader>
           <CardContent>
-            <p className="text-gray-500">Cancelled Orders</p>
+            <div className="text-2xl font-bold text-red-600">{orderCounts.cancelled}</div>
           </CardContent>
         </Card>
       </div>
-      
-      <h2 className="text-xl font-semibold mb-4">Orders</h2>
-      
-      <DynamicTable
-        data={ordersData}
-        columns={columns}
-        actions={actions}
-        currentPage={currentPage}
-        totalPages={1} // In a real app, calculate based on total records and page size
-        onPageChange={setCurrentPage}
-      />
+
+      <Card>
+        <CardHeader>
+          <CardTitle>Orders</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <DynamicTable
+            data={currentData}
+            columns={columns}
+            actions={actions}
+            currentPage={currentPage}
+            totalPages={totalPages}
+            onPageChange={handlePageChange}
+            pageSize={pageSize}
+            onPageSizeChange={handlePageSizeChange}
+          />
+        </CardContent>
+      </Card>
     </div>
   );
 }
