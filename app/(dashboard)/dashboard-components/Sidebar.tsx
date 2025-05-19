@@ -1,18 +1,20 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import {
   Home,
   Users,
   MessageSquare,
-  ShoppingCart,
   CreditCard,
   Settings,
   GitPullRequestIcon,
+  ArrowLeftSquareIcon,
 } from "lucide-react";
 import { cn } from "@/lib/utils"; // shadcn helper
 import Link from "next/link";
 import { useParams, usePathname } from "next/navigation";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { useSidebar } from "@/states/sidebar-context";
 
 
 export default function DashboardSidebar() {
@@ -20,6 +22,7 @@ export default function DashboardSidebar() {
   // Use useParams to get the dynamic segment from the route
   const params = useParams();
   const clientId = params?.id || "55";
+  const { isOpen, toggleSidebar } = useSidebar()
 
 
   const menuItems = [
@@ -72,12 +75,20 @@ export default function DashboardSidebar() {
     return pathname === pattern;
   };
 
-  
+  const className = cn(
+    "fixed left-0 top-0 bottom-0 z-40 w-16 md:w-[130px] bg-white border-r border-gray-200 flex flex-col justify-between transition-transform duration-300",
+    isOpen ? "translate-x-0" : "-translate-x-full"
+  );
 
   return (
-    <aside className="hidden fixed left-0 top-0 bottom-0 z-40 w-16 md:w-[130px] bg-white border-r border-gray-200 lg:flex lg:flex-col justify-between">
+    <aside className={className}>
+      <div className="flex justify-center align-middle pt-[120px] items-center">
+        <button onClick={toggleSidebar} className="p-2 rounded-md hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200">
+          <ArrowLeftSquareIcon className="h-7 w-12" />
+        </button>
+      </div>
       {/* Menu items */}
-      <div className="flex flex-col items-center pt-[150px]">
+      <div className="flex flex-col items-center">
         {menuItems.map(({ label, icon: Icon, href, pattern }) => {
           const isActive = isRouteActive(pattern);
           return (
