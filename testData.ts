@@ -545,6 +545,36 @@ export const offersData: IOffer[] = [
         rating: 4.5,
         review: "Great communication and delivered exactly what we needed.",
         date: "2025-05-10"
+      },
+      {
+        client: experts[2],
+        rating: 4.5,
+        review: "Great communication and delivered exactly what we needed.",
+        date: "2025-05-10"
+      },
+      {
+        client: experts[2],
+        rating: 4.5,
+        review: "Great communication and delivered exactly what we needed.",
+        date: "2025-05-10"
+      },
+      {
+        client: experts[2],
+        rating: 4.5,
+        review: "Great communication and delivered exactly what we needed.",
+        date: "2025-05-10"
+      },
+      {
+        client: experts[2],
+        rating: 4,
+        review: "Great communication and delivered exactly what we needed.",
+        date: "2025-05-10"
+      },
+      {
+        client: experts[2],
+        rating: 2,
+        review: "Great communication and delivered exactly what we needed.",
+        date: "2025-05-10"
       }
     ],
     imageSrc: "/assets/images/experts/expert.png",
