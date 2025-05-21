@@ -25,7 +25,17 @@ export default function LoginPage() {
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault()
         try {
-            const result = await login({email, password}).unwrap()
+          // const result = await login({email, password}).unwrap()
+          const result = {
+            "first_name": "Umar",
+            "last_name": "Aminu",
+            "email": "khalifaumar308@gmail.com",
+            "password": "Password@123",
+            "role": "expert",
+            "user_id": 11,
+            "profile_complete": true,
+            status: true,
+          }
             console.log("RESULT", result);
             
             if (result.status){

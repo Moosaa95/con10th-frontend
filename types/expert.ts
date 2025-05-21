@@ -15,20 +15,6 @@ export interface User {
     name: string;
   }
   
-  // export interface Expert {
-  //   id: number;
-  //   user: User;
-  //   full_name: string;
-  //   profile_pic: string | null;
-  //   title: string;
-  //   categories: Category[];
-  //   skills: Skill[];
-  //   experience_level: 'entry' | 'inter' | 'expert' | 'professional';
-  //   average_response_time: string;
-  //   is_available: boolean;
-  //   location: string;
-  //   rating: number;
-  // }
   export interface PortfolioItem {
     title: string
     description: string
@@ -61,6 +47,24 @@ export interface User {
     phone: string;
     portfolio?: PortfolioItem[];
   }
+
+export interface IOffer { 
+  id: string;
+  title: string;
+  description: string;
+  price: number;
+  requirements: string[];
+  expert: Expert;
+  ratings: {
+    // TODO change to client
+    client: Expert;
+    rating: number;
+    review: string;
+    date: string;
+  }[]
+  imageSrc: string;
+  imageAlt?: string;
+}
   
 export interface IPromo {
   variant: "client" | "expert"
@@ -81,4 +85,13 @@ export interface IOrder {
   status: string;
   orderDate: string;
   deliveryDeadline: string;
+}
+
+export interface IPayment {
+  id: string;
+  serviceSold: string;
+  expertName: string;
+  amountPaid: number;
+  datePaid: string;
+  status: string;
 }

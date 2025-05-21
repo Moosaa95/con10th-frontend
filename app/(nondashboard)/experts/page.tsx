@@ -3,7 +3,7 @@
 
 import { useState, useEffect, useCallback } from "react"
 import { cn } from "@/lib/utils"
-import { experts, promos } from "@/testData"
+import { offersData, promos } from "@/testData"
 import { Filter, X } from "lucide-react"
 import {
   Select,
@@ -28,6 +28,8 @@ import {
   PaginationPrevious,
 } from "@/components/ui/pagination"
 import type { Expert } from "@/types/expert"
+import { useFetchExpertQuery } from "@/states/features/endpoints/general/generalApiSlice"
+import OfferCard from "@/components/offers/OfferCard"
 
 const CheckboxDiv = ({id, label}:{id:string; label:string}) => {
   return (
@@ -224,12 +226,14 @@ function Experts() {
   const [currentPage, setCurrentPage] = useState(1)
   const [isLoading, setIsLoading] = useState(false)
   const [filters, setFilters] = useState<Filters>(initialFilters)
-  const [filteredExperts, setFilteredExperts] = useState(experts)
   const itemsPerPage = 8
+  const { data: experts } = useFetchExpertQuery()
+  console.log(experts, 'data')
+  const [filteredExperts, setFilteredExperts] = useState(experts || [])
 
   // Apply filters to experts
   const applyFilters = useCallback(() => {
-    let result = [...experts];
+    let result = [...experts || []];
 
     // Filter by availability
     if (filters.availability !== "all") {
@@ -290,7 +294,7 @@ function Experts() {
 
     setFilteredExperts(result);
     setCurrentPage(1); // Reset to first page when filters change
-  }, [filters]);
+  }, [filters, experts]);
 
   // Update filters
   const updateFilter = (key: keyof Filters, value: any) => {
@@ -466,23 +470,16 @@ function Experts() {
                 <ExpertCard expert={expert} key={expert.expert_id} />
               ))
             )}
-            {!isExperts && promos.map(({variant, label, title, imageSrc, imageAlt, description, buttonLink, buttonText}, id) => (
-              <PromoSection
+            {!isExperts && offersData.map((offer, id) => (
+              <OfferCard
                 key={id}
-                variant={variant}
-                label={label}
-                title={title}
-                description={description}
-                buttonText={buttonText}
-                buttonLink={buttonLink}
-                imageSrc={imageSrc}
-                imageAlt={imageAlt}
+                offer={offer}
               />
             ))}
           </section>
 
           {/* Pagination */}
-          {isExperts && experts.length > itemsPerPage && (
+          {(isExperts && experts && experts) && experts.length > itemsPerPage && (
             <div className="mt-8">
               <Pagination aria-label="Navigate experts pages">
                 <PaginationContent>
@@ -535,7 +532,7 @@ function Experts() {
               </Pagination>
 
               <div className="mt-4 text-center text-sm text-gray-600">
-                Showing {indexOfFirstItem + 1} - {Math.min(indexOfLastItem, experts.length)} of {experts.length} experts
+                Showing {indexOfFirstItem + 1} - {Math.min(indexOfLastItem, experts?.length)} of {experts?.length} experts
               </div>
             </div>
           )}
