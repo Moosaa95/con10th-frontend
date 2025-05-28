@@ -95,3 +95,23 @@ export interface IPayment {
   datePaid: string;
   status: string;
 }
+
+type IClient = {
+  id: string,
+  first_name: string,
+  last_name: string,
+  profile_picture: string,
+  email: string,
+}
+
+export interface IConversation { 
+  id: string;
+  expert: Expert;
+  client: IClient;
+  messages: {
+    id: string;
+    senderId: 'client' | 'expert'; // expert or client
+    content: string;
+    timestamp: string;
+  }[];
+}

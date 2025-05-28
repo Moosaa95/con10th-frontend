@@ -1,4 +1,4 @@
-import { Expert, IOrder, IPayment, IPromo, IOffer } from "./types/expert";
+import { Expert, IOrder, IPayment, IPromo, IOffer, IConversation } from "./types/expert";
 
 export const experts: Expert[] = [
   {
@@ -226,6 +226,56 @@ export const experts: Expert[] = [
     phone: "+92 300 1234567",
   },
 ];
+export const client = {
+  id: "muhammad-basheer-1",
+  first_name: "Umar",
+  last_name: "Aminu",
+  profile_picture: "/assets/images/experts/expert.png",
+  email: "khalifaumar308@308.com"
+}
+// const offer = [
+//   {
+//     "id": 1,
+//     "title": "UI/UX Design Package",
+//     "price": 1200,
+//     "description": "Complete design solution for your digital product, from wireframes to high-fidelity prototypes.",
+//     "includes": [
+//       "User research and analysis",
+//       "Wireframing and prototyping",
+//       "High-fidelity UI design",
+//       "Interactive prototype",
+//       "Design system documentation",
+//       "2 rounds of revisions"
+//     ]
+//   },
+//   {
+//     "id": 2,
+//     "title": "Brand Identity Package",
+//     "price": 1500,
+//     "description": "Comprehensive brand identity design to establish a strong visual presence for your business.",
+//     "includes": [
+//       "Logo design (3 concepts)",
+//       "Brand guidelines",
+//       "Business card and letterhead",
+//       "Social media assets",
+//       "Basic marketing materials",
+//       "3 rounds of revisions"
+//     ]
+//   },
+//   {
+//     "id": 3,
+//     "title": "Custom Illustration Package",
+//     "price": 800,
+//     "description": "Unique illustrations to enhance your brand storytelling and visual communication.",
+//     "includes": [
+//       "Style exploration",
+//       "5 custom illustrations",
+//       "Source files included",
+//       "Usage rights for all platforms",
+//       "2 rounds of revisions"
+//     ]
+//   }
+// ]
 
 export const promos: IPromo[] = [
   {
@@ -720,3 +770,109 @@ export const offersData: IOffer[] = [
   }
 ];
 
+export const testConvarsations: IConversation[] = [
+  {
+    id: "conv-1",
+    expert: experts[0],
+    client: client,
+    messages: [
+      {
+        id: "msg-1",
+        senderId: "expert",
+        content: "Hello! How can I assist you today?",
+        timestamp: "2025-05-01T10:00:00Z"
+      },
+      {
+        id: "msg-2",
+        senderId: "client",
+        content: "Hi! I need help with a logo design for my new business.",
+        timestamp: "2025-05-01T10:05:00Z"
+      },
+      {
+        id: "msg-3",
+        senderId: "expert",
+        content: "Sure! I can help with that. Can you provide some details about your business?",
+        timestamp: "2025-05-01T10:10:00Z"
+      },
+      {
+        id: "msg-4",
+        senderId: "client",
+        content: "It's a tech startup focused on AI solutions. I want a modern and sleek logo.",
+        timestamp: "2025-05-01T10:15:00Z"
+      },
+      {
+        id: "msg-5",
+        senderId: "expert",
+        content: "Got it! I will create some initial concepts and share them with you soon.",
+        timestamp: "2025-05-01T10:20:00Z"
+      }
+    ]
+  },
+  {
+    id: "conv-2",
+    expert: experts[1],
+    client: client,
+    messages: [
+      {
+        id: "msg-1",
+        senderId: "expert",
+        content: "Hi! I saw your request for a website design. Can we discuss your requirements?",
+        timestamp: "2025-05-02T11:00:00Z"
+      },
+      {
+        id: "msg-2",
+        senderId: "client",
+        content: "Yes, I'm looking for a responsive design for my e-commerce site.",
+        timestamp: "2025-05-02T11:05:00Z"
+      },
+      {
+        id: "msg-3",
+        senderId: "expert",
+        content: "Great! Do you have any specific features or styles in mind?",
+        timestamp: "2025-05-02T11:10:00Z"
+      },
+      {
+        id: "msg-4",
+        senderId: "client",
+        content: "I want a clean and modern look with easy navigation.",
+        timestamp: "2025-05-02T11:15:00Z"
+      },
+      {
+        id: "msg-5",
+        senderId: "expert",
+        content: "Understood! I will prepare a proposal and send it to you shortly.",
+        timestamp: "2025-05-02T11:20:00Z"
+      }
+    ]
+  }
+  // Add more conversations as needed
+]
+
+type Notification = {
+  id: number;
+  title: string;
+  message: string;
+  readMore?: boolean;
+};
+
+export const notifications: Notification[] = [
+  {
+    id: 1,
+    title: 'Announcement!',
+    message:
+      "Welcome to CON10TH! We're thrilled to have you here. Dive in and explore all the amazing features we offer!",
+  },
+  {
+    id: 2,
+    title: 'Announcement!',
+    message:
+      "Welcome to CON10TH! We're thrilled to have you here. Dive in and explore all the amazing features we offer!",
+  },
+  {
+    id: 3,
+    title: 'Announcement!',
+    message:
+      "Welcome to CON10TH! We're thrilled to have you here. Dive in and explore all the amazing features we offer!",
+    readMore: true,
+  },
+];
