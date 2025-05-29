@@ -14,14 +14,16 @@ export default function Layout({ children }: { children: ReactNode }) {
                 <DashboardNavbar />
 
                 {/* Main body (sidebar + content) */}
-                <div className="flex flex-1 overflow-hidden">
+                <div className="grid grid-cols-12 gap-4">
                     {/* Sidebar */}
-                    <DashboardSidebar />
+                    <div className="col-span-1 hidden md:block">
+                        <DashboardSidebar />
+                    </div>
 
                     {/* Main content area */}
-                    <main className="flex-1 p-6 overflow-y-auto">
+                    <div className="col-span-11 flex-1 p-6 overflow-y-auto">
                         {children}
-                    </main>
+                    </div>
                 </div>
             </div>
         </SidebarProvider>

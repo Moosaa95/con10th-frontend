@@ -68,7 +68,7 @@ const Tpage = () => {
       setCurrentStep((prev) => prev + 1);
     } else {
       // Handle final submission
-      console.log("Final Data: ", { ...formData, ...data });
+      console.log("Final Data: ", { ...formData, ...data }, 'tpage');
       // Call your API or perform any action with the final data
     }
   }

@@ -108,6 +108,7 @@ export interface IConversation {
   id: string;
   expert: Expert;
   client: IClient;
+  read?: boolean;
   messages: {
     id: string;
     senderId: 'client' | 'expert'; // expert or client

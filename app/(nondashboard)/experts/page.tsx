@@ -3,7 +3,7 @@
 
 import { useState, useEffect, useCallback } from "react"
 import { cn } from "@/lib/utils"
-import { offersData, promos } from "@/testData"
+import { experts, offersData, promos } from "@/testData"
 import { Filter, X } from "lucide-react"
 import {
   Select,
@@ -227,8 +227,8 @@ function Experts() {
   const [isLoading, setIsLoading] = useState(false)
   const [filters, setFilters] = useState<Filters>(initialFilters)
   const itemsPerPage = 8
-  const { data: experts } = useFetchExpertQuery()
-  console.log(experts, 'data')
+  // const { data: experts } = useFetchExpertQuery()
+  // console.log(experts, 'data')
   const [filteredExperts, setFilteredExperts] = useState(experts || [])
 
   // Apply filters to experts
@@ -294,7 +294,7 @@ function Experts() {
 
     setFilteredExperts(result);
     setCurrentPage(1); // Reset to first page when filters change
-  }, [filters, experts]);
+  }, [filters]);
 
   // Update filters
   const updateFilter = (key: keyof Filters, value: any) => {

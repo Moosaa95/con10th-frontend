@@ -76,7 +76,7 @@ export default function DashboardSidebar() {
   };
 
   const className = cn(
-    "fixed left-0 top-0 bottom-0 z-40 w-16 md:w-[130px] bg-white border-r border-gray-200 flex flex-col justify-between transition-transform duration-300",
+    "bg-white border-r h-full border-gray-200 flex flex-col justify-between transition-transform duration-300",
     isOpen ? "translate-x-0" : "-translate-x-full"
   );
 

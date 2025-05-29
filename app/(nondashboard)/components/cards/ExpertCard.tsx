@@ -13,7 +13,7 @@ export function ExpertCard({ expert }: ExpertCardProps) {
   const fullName = `${expert.first_name} ${expert.last_name}`
 
   return (
-    <Link href={`/expert/${expert.expert_id}`} className="block w-full transition-transform hover:scale-[1.02]">
+    <Link href={`/expert/${expert.expert_id}/detail`} className="block w-full transition-transform hover:scale-[1.02]">
       <Card className="overflow-hidden border-gray-400 bg-white w-full h-full">
         <div className="relative p-4 md:p-5">
           <Image

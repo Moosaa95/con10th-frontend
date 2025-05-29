@@ -4,23 +4,25 @@ import { useState } from "react"
 import { Search, Plus, MoreVertical, X, Send } from "lucide-react"
 import { Input } from "@/components/ui/input"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { conversations } from "@/lib/data"
+import { IConversation } from "@/types/expert"
+import { testConvarsations } from "@/testData"
 import ConversationList from "@/app/(dashboard)/dashboard-components/messages/ConversationList"
 import MessageThread from "@/app/(dashboard)/dashboard-components/messages/MessageThreads"
 import MessageEmptyState from "@/app/(dashboard)/dashboard-components/messages/MessageEmpty"
+import { conversations } from "@/lib/data"
 
 export default function MessagesPage() {
   const [activeTab, setActiveTab] = useState("unread")
-  const [activeConversation, setActiveConversation] = useState<any>(null)
+  const [activeConversation, setActiveConversation] = useState<IConversation | null>(null)
   const [searchQuery, setSearchQuery] = useState("")
 
   // Filter conversations based on search query and active tab
-  const filteredConversations = conversations.filter(
-    (conversation) =>
-      (activeTab === "unread" ? conversation.unread > 0 : conversation.archived) &&
-      (conversation.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        conversation.lastMessage.toLowerCase().includes(searchQuery.toLowerCase())),
-  )
+  // const filteredConversations = testConvarsations.filter(
+  //   (conversation) =>
+  //     (activeTab === "unread" ? conversation.unread > 0 : conversation.archived) &&
+  //     (conversation.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+  //       conversation.lastMessage.toLowerCase().includes(searchQuery.toLowerCase())),
+  // )
 
   const handleCloseConversation = () => {
     setActiveConversation(null)
@@ -65,9 +67,9 @@ export default function MessagesPage() {
             </TabsList>
 
             <TabsContent value="unread" className="flex-1 overflow-y-auto mt-0">
-              {filteredConversations.length > 0 ? (
+              {testConvarsations.length > 0 ? (
                 <ConversationList
-                  conversations={filteredConversations}
+                  conversations={testConvarsations}
                   activeId={activeConversation?.id}
                   onSelect={setActiveConversation}
                   type="archived"
@@ -78,9 +80,9 @@ export default function MessagesPage() {
             </TabsContent>
 
             <TabsContent value="archived" className="flex-1 overflow-y-auto mt-0">
-              {filteredConversations.length > 0 ? (
+              {testConvarsations.length > 0 ? (
                 <ConversationList
-                  conversations={filteredConversations}
+                  conversations={testConvarsations}
                   activeId={activeConversation?.id}
                   onSelect={setActiveConversation}
                   type="archived"
@@ -106,12 +108,12 @@ export default function MessagesPage() {
                       className="w-10 h-10 rounded-full object-cover"
                     />
                   </div>
-                  <div>
+                  {/* <div>
                     <h3 className="font-medium">{activeConversation.name}</h3>
                     <p className="text-xs text-gray-500">
                       Last online {activeConversation.lastOnline || "20 hours ago"}
                     </p>
-                  </div>
+                  </div> */}
                 </div>
                 <button onClick={handleCloseConversation} className="text-gray-500 hover:text-gray-700">
                   <X className="h-5 w-5" />
@@ -119,7 +121,7 @@ export default function MessagesPage() {
               </div>
 
               {/* Messages */}
-              <MessageThread conversation={activeConversation} />
+              {/* <MessageThread conversation={activeConversation} /> */}
 
               {/* Message Input */}
               <div className="p-3 border-t border-gray-200 ">
