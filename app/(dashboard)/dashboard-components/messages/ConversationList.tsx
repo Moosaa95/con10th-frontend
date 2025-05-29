@@ -4,63 +4,92 @@ import { MoreVertical } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { IConversation } from "@/types/expert"
 
-// interface Conversation {
-//   id: string
-//   name: string
-//   avatar: string
-//   lastMessage: string
-//   timestamp: string
-//   unread: number
-//   archived?: boolean
-// }
+const formatMessageTime = (timestamp: string) => {
+  const messageDate = new Date(timestamp)
+  const now = new Date()
+  const diffInMinutes = Math.floor((now.getTime() - messageDate.getTime()) / (1000 * 60))
+
+  if (diffInMinutes < 1) return "Just now"
+  if (diffInMinutes < 60) return `${diffInMinutes}m ago`
+
+  const diffInHours = Math.floor(diffInMinutes / 60)
+  if (diffInHours < 24) return `${diffInHours}h ago`
+
+  if (messageDate.toDateString() === now.toDateString()) {
+    return messageDate.toLocaleTimeString(undefined, { hour: "numeric", minute: "numeric" })
+  }
+
+  if (now.getTime() - messageDate.getTime() < 7 * 24 * 60 * 60 * 1000) {
+    return messageDate.toLocaleDateString(undefined, { weekday: "short" })
+  }
+
+  return messageDate.toLocaleDateString(undefined, { month: "short", day: "numeric" })
+}
 
 interface ConversationListProps {
   conversations: IConversation[]
   activeId: string | undefined
   onSelect: (conversation: IConversation) => void
-  type: "unread" | "archived"
 }
 
-export default function ConversationList({ conversations, activeId, onSelect, type }: ConversationListProps) {
+export default function ConversationList({ conversations, activeId, onSelect }: ConversationListProps) {
   return (
     <div className="divide-y divide-gray-100">
-      {conversations.map((conversation) => (
-        <div
-          key={conversation.id}
-          className={cn("p-4 hover:bg-gray-50 cursor-pointer", activeId === conversation.id ? "bg-gray-50" : "")}
-          onClick={() => onSelect(conversation)}
-        >
-          <div className="flex">
-            <div className="mr-3">
-              <img
-                src={conversation.expert.profile_picture || "/placeholder.svg?height=40&width=40&query=person"}
-                alt={conversation.expert.first_name + " " + conversation.expert.last_name}
-                className="w-10 h-10 rounded-full object-cover"
-              />
-            </div>
-            <div className="flex-1 min-w-0">
-              <div className="flex items-center justify-between">
-                <div className="flex items-center">
-                  <h3 className="font-medium text-sm">{conversation.expert.first_name + " " + conversation.expert.last_name}</h3>
-                  <span
-                    className={cn(
-                      "ml-2 text-xs px-2 py-0.5 rounded-sm text-white",
-                      type === "unread" ? "bg-red-500" : "bg-yellow-500",
-                    )}
-                  >
-                    {type === "unread" ? "Unread" : "Archived"}
+      {conversations.map((conversation) => {
+        const lastMessage = conversation.messages[conversation.messages.length - 1]
+        return (
+          <div
+            key={conversation.id}
+            className={cn(
+              "hover:bg-gray-50 cursor-pointer transition-colors",
+              activeId === conversation.id ? "bg-secondary-100" : ""
+            )}
+            onClick={() => onSelect(conversation)}
+          >
+            <div className="p-3 flex gap-3">
+              {/* Avatar */}
+              <div className="relative flex-shrink-0">
+                <img
+                  src={conversation.expert.profile_picture || "/placeholder.svg?height=40&width=40&query=person"}
+                  alt={conversation.expert.first_name + " " + conversation.expert.last_name}
+                  className="w-12 h-12 rounded-full object-cover border-2 border-white shadow-sm"
+                />
+                <span className="absolute bottom-0 right-0 w-3 h-3 bg-green-500 rounded-full ring-2 ring-white" />
+              </div>
+
+              {/* Content */}
+              <div className="flex-1 min-w-0 relative">
+                <div className="flex justify-between items-start mb-1">
+                  <div className="flex items-center gap-2">
+                    <h3 className="font-semibold text-gray-900 truncate">
+                      {conversation.expert.first_name} {conversation.expert.last_name}
+                    </h3>
+                  </div>
+                  <span className="text-xs text-gray-500 whitespace-nowrap">
+                    {formatMessageTime(lastMessage.timestamp)}
                   </span>
                 </div>
-                <span className="text-xs text-gray-500">{conversation.messages[conversation.messages.length - 1].timestamp}</span>
+
+                <div className="flex items-start justify-between gap-2">
+                  <p className="text-sm text-gray-600 line-clamp-2 leading-snug">
+                    {lastMessage.senderId === "client" && "You: "}
+                    {lastMessage.content}
+                  </p>
+                  <button
+                    className="flex-shrink-0 text-gray-400 hover:text-gray-600 opacity-0 group-hover:opacity-100 transition-opacity"
+                    onClick={(e) => {
+                      e.stopPropagation()
+                      // Handle menu click
+                    }}
+                  >
+                    <MoreVertical className="h-4 w-4" />
+                  </button>
+                </div>
               </div>
-              <p className="text-sm text-gray-700 truncate mt-1">{conversation.messages[conversation.messages.length - 1].content}</p>
             </div>
-            <button className="ml-2 text-gray-400 hover:text-gray-600 self-start">
-              <MoreVertical className="h-5 w-5" />
-            </button>
           </div>
-        </div>
-      ))}
+        )
+      })}
     </div>
   )
 }

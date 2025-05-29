@@ -1,155 +1,168 @@
 "use client"
 
 import { useState } from "react"
-import { Search, Plus, MoreVertical, X, Send } from "lucide-react"
+import { Search, Plus, MoreVertical, X, Send, Smile, Paperclip, Phone, Video } from "lucide-react"
 import { Input } from "@/components/ui/input"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { Button } from "@/components/ui/button"
 import { IConversation } from "@/types/expert"
 import { testConvarsations } from "@/testData"
+import { cn } from "@/lib/utils"
 import ConversationList from "@/app/(dashboard)/dashboard-components/messages/ConversationList"
 import MessageThread from "@/app/(dashboard)/dashboard-components/messages/MessageThreads"
 import MessageEmptyState from "@/app/(dashboard)/dashboard-components/messages/MessageEmpty"
-import { conversations } from "@/lib/data"
 
 export default function MessagesPage() {
-  const [activeTab, setActiveTab] = useState("unread")
   const [activeConversation, setActiveConversation] = useState<IConversation | null>(null)
   const [searchQuery, setSearchQuery] = useState("")
 
-  // Filter conversations based on search query and active tab
-  // const filteredConversations = testConvarsations.filter(
-  //   (conversation) =>
-  //     (activeTab === "unread" ? conversation.unread > 0 : conversation.archived) &&
-  //     (conversation.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-  //       conversation.lastMessage.toLowerCase().includes(searchQuery.toLowerCase())),
-  // )
+  // Filter conversations based on search query
+  const filteredConversations = testConvarsations.filter((conversation) =>
+    `${conversation.expert.first_name} ${conversation.expert.last_name}`
+      .toLowerCase()
+      .includes(searchQuery.toLowerCase()) ||
+    conversation.messages[conversation.messages.length - 1].content
+      .toLowerCase()
+      .includes(searchQuery.toLowerCase())
+  )
 
   const handleCloseConversation = () => {
     setActiveConversation(null)
   }
 
   return (
-    <div className="container flex bg-white mx-auto h-full max-h-screen min-h-screen overflow-hidden">
-
-      {/* Main Content */}
-      <div className="flex-1 flex">
-        {/* Conversations List */}
-        <div className="w-80 border-r border-gray-200 flex flex-col">
-          <div className="p-4 flex justify-between items-center">
-            <h1 className="text-lg font-semibold">{activeTab === "unread" ? "Unread" : "Archived"}</h1>
-            <div className="flex items-center">
-              <button className="p-2 text-gray-500 hover:text-gray-700">
+    <div className="h-[calc(100vh-10rem)] bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+      <div className="flex h-full">
+        {/* Conversations List - Hide on mobile when conversation is active */}
+        <div className={cn(
+          "w-full sm:w-[380px] border-r border-gray-200 flex flex-col bg-gray-50/50",
+          activeConversation ? "hidden sm:flex" : "flex"
+        )}>
+          <div className="p-4 flex justify-between items-center bg-white border-b border-gray-200">
+            <h1 className="text-lg font-semibold text-gray-900">Messages</h1>
+            <div className="flex items-center gap-2">
+              <Button variant="ghost" size="icon" className="text-gray-500 hover:text-gray-700">
                 <Plus className="h-5 w-5" />
-              </button>
-              <button className="p-2 text-gray-500 hover:text-gray-700">
+              </Button>
+              <Button variant="ghost" size="icon" className="text-gray-500 hover:text-gray-700">
                 <MoreVertical className="h-5 w-5" />
-              </button>
+              </Button>
             </div>
           </div>
 
-          <div className="px-4 pb-3">
+          <div className="px-4 py-3 bg-white border-b border-gray-200">
             <div className="relative">
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
               <Input
                 type="text"
-                placeholder="Search"
-                className="pl-10 pr-4 py-2 w-full rounded-md border border-gray-300 focus-visible:ring-orange-500"
+                placeholder="Search conversations..."
+                className="pl-10 pr-4 py-2 w-full rounded-full bg-gray-50 border-gray-200 focus-visible:ring-orange-500 focus-visible:ring-offset-2"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
               />
             </div>
           </div>
 
-          <Tabs value={activeTab} onValueChange={setActiveTab} className="flex-1 flex flex-col">
-            <TabsList className="hidden">
-              <TabsTrigger value="unread">Unread</TabsTrigger>
-              <TabsTrigger value="archived">Archived</TabsTrigger>
-            </TabsList>
-
-            <TabsContent value="unread" className="flex-1 overflow-y-auto mt-0">
-              {testConvarsations.length > 0 ? (
-                <ConversationList
-                  conversations={testConvarsations}
-                  activeId={activeConversation?.id}
-                  onSelect={setActiveConversation}
-                  type="archived"
-                />
-              ) : (
-                <div className="p-4 text-center text-gray-500">No unread messages</div>
-              )}
-            </TabsContent>
-
-            <TabsContent value="archived" className="flex-1 overflow-y-auto mt-0">
-              {testConvarsations.length > 0 ? (
-                <ConversationList
-                  conversations={testConvarsations}
-                  activeId={activeConversation?.id}
-                  onSelect={setActiveConversation}
-                  type="archived"
-                />
-              ) : (
-                <div className="p-4 text-center text-gray-500">No archived messages</div>
-              )}
-            </TabsContent>
-          </Tabs>
+          <div className="flex-1 overflow-y-auto">
+            {filteredConversations.length > 0 ? (
+              <ConversationList
+                conversations={filteredConversations}
+                activeId={activeConversation?.id}
+                onSelect={setActiveConversation}
+              />
+            ) : (
+              <div className="p-8 text-center text-gray-500 flex flex-col items-center">
+                <div className="bg-gray-100 rounded-full p-3 mb-3">
+                  <Search className="h-6 w-6 text-gray-400" />
+                </div>
+                <p>No conversations found</p>
+              </div>
+            )}
+          </div>
         </div>
 
-        {/* Message Thread or Empty State */}
-        <div className="flex-1 flex flex-col ">
+        {/* Message Thread or Empty State - Show on mobile when conversation is active */}
+        <div className={cn(
+          "flex-1 flex flex-col bg-gray-50",
+          activeConversation ? "flex" : "hidden sm:flex"
+        )}>
           {activeConversation ? (
             <>
               {/* Conversation Header */}
-              <div className="p-4 border-b border-gray-200 flex justify-between items-center">
-                <div className="flex items-center">
-                  <div className="mr-3">
-                    <img
-                      src={activeConversation.avatar || "/placeholder.svg?height=40&width=40&query=person"}
-                      alt={activeConversation.name}
-                      className="w-10 h-10 rounded-full object-cover"
-                    />
+              <div className="px-6 py-4 bg-white border-b border-gray-200">
+                <div className="flex justify-between items-center">
+                  <div className="flex items-center gap-4">
+                    {/* Back button on mobile */}
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      className="sm:hidden mr-2"
+                      onClick={handleCloseConversation}
+                    >
+                      <X className="h-5 w-5" />
+                    </Button>
+                    
+                    <div className="flex items-center gap-3">
+                      <div className="relative">
+                        <img
+                          src={activeConversation.expert.profile_picture || "/placeholder.svg?height=40&width=40&query=person"}
+                          alt={activeConversation.expert.first_name}
+                          className="w-12 h-12 rounded-full object-cover ring-2 ring-white shadow-sm"
+                        />
+                        <span className="absolute bottom-0 right-0 w-3 h-3 bg-green-500 rounded-full ring-2 ring-white" />
+                      </div>
+                      <div>
+                        <h3 className="font-semibold text-gray-900">
+                          {activeConversation.expert.first_name} {activeConversation.expert.last_name}
+                        </h3>
+                        <p className="text-sm text-green-600 flex items-center gap-1">
+                          <span className="w-1.5 h-1.5 bg-green-500 rounded-full inline-block"></span>
+                          Online
+                        </p>
+                      </div>
+                    </div>
                   </div>
-                  {/* <div>
-                    <h3 className="font-medium">{activeConversation.name}</h3>
-                    <p className="text-xs text-gray-500">
-                      Last online {activeConversation.lastOnline || "20 hours ago"}
-                    </p>
-                  </div> */}
+                  
+                  <div className="flex items-center gap-2">
+                    <Button variant="ghost" size="icon" className="text-gray-500 hover:text-gray-700">
+                      <Phone className="h-5 w-5" />
+                    </Button>
+                    <Button variant="ghost" size="icon" className="text-gray-500 hover:text-gray-700">
+                      <Video className="h-5 w-5" />
+                    </Button>
+                    <Button variant="ghost" size="icon" className="text-gray-500 hover:text-gray-700">
+                      <MoreVertical className="h-5 w-5" />
+                    </Button>
+                  </div>
                 </div>
-                <button onClick={handleCloseConversation} className="text-gray-500 hover:text-gray-700">
-                  <X className="h-5 w-5" />
-                </button>
               </div>
 
               {/* Messages */}
-              {/* <MessageThread conversation={activeConversation} /> */}
+              <div className="flex-1 overflow-y-auto bg-[#F8FAFC] backdrop-blur-sm">
+                <MessageThread conversation={activeConversation} />
+              </div>
 
               {/* Message Input */}
-              <div className="p-3 border-t border-gray-200 ">
-                <div className="flex items-center">
-                  <button className="p-2 text-gray-500 hover:text-gray-700">
-                    <svg className="h-5 w-5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <path
-                        d="M12 13.5C12.8284 13.5 13.5 12.8284 13.5 12C13.5 11.1716 12.8284 10.5 12 10.5C11.1716 10.5 10.5 11.1716 10.5 12C10.5 12.8284 11.1716 13.5 12 13.5Z"
-                        fill="currentColor"
-                      />
-                      <path
-                        d="M6.5 13.5C7.32843 13.5 8 12.8284 8 12C8 11.1716 7.32843 10.5 6.5 10.5C5.67157 10.5 5 11.1716 5 12C5 12.8284 5.67157 13.5 6.5 13.5Z"
-                        fill="currentColor"
-                      />
-                      <path
-                        d="M17.5 13.5C18.3284 13.5 19 12.8284 19 12C19 11.1716 18.3284 10.5 17.5 10.5C16.6716 10.5 16 11.1716 16 12C16 12.8284 16.6716 13.5 17.5 13.5Z"
-                        fill="currentColor"
-                      />
-                    </svg>
-                  </button>
+              <div className="p-4 bg-white border-t border-gray-200">
+                <div className="flex items-center gap-2 bg-gray-50 rounded-lg p-2">
+                  <div className="flex items-center gap-0.5">
+                    <Button variant="ghost" size="icon" className="text-gray-500 hover:text-gray-700 rounded-full h-9 w-9">
+                      <Paperclip className="h-5 w-5" />
+                    </Button>
+                    <Button variant="ghost" size="icon" className="text-gray-500 hover:text-gray-700 rounded-full h-9 w-9">
+                      <Smile className="h-5 w-5" />
+                    </Button>
+                  </div>
                   <Input
                     type="text"
-                    placeholder="Type message"
-                    className="mx-2 border-gray-300 focus-visible:ring-orange-500"
+                    placeholder="Type your message..."
+                    className="border-0 focus-visible:ring-0 focus-visible:ring-offset-0 bg-transparent text-base"
                   />
-                  <button className="p-2 text-gray-500 hover:text-gray-700">
-                    <Send className="h-5 w-5" />
-                  </button>
+                  <Button 
+                    size="icon" 
+                    className="rounded-full bg-orange-500 hover:bg-orange-600 text-white h-9 w-9 shadow-sm"
+                  >
+                    <Send className="h-4 w-4" />
+                  </Button>
                 </div>
               </div>
             </>

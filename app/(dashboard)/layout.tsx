@@ -1,29 +1,28 @@
 "use client";
+
 import { ReactNode } from "react";
 import DashboardNavbar from "./dashboard-components/DashNav";
 import DashboardSidebar from "./dashboard-components/Sidebar";
-// import MobileSidebar from "./dashboard-components/MobileSidebar";
 import { SidebarProvider } from "@/states/sidebar-context";
-
 
 export default function Layout({ children }: { children: ReactNode }) {
     return (
         <SidebarProvider>
-            <div className="min-h-screen bg-[#F9FAFB]">
-                {/* Top Navbar */}
+            <div className="min-h-screen bg-[#F9FAFB] flex flex-col">
                 <DashboardNavbar />
 
-                {/* Main body (sidebar + content) */}
-                <div className="grid grid-cols-12 gap-4">
-                    {/* Sidebar */}
-                    <div className="col-span-1 hidden md:block">
-                        <DashboardSidebar />
-                    </div>
+                <div className="flex-1 flex">
+                    <aside className="hidden lg:block w-64 shrink-0 border-r border-gray-200 bg-white">
+                        <div className="sticky top-0 h-[calc(100vh-4rem)] overflow-y-auto scrollbar-thin scrollbar-thumb-gray-200">
+                            <DashboardSidebar />
+                        </div>
+                    </aside>
 
-                    {/* Main content area */}
-                    <div className="col-span-11 flex-1 p-6 overflow-y-auto">
-                        {children}
-                    </div>
+                    <main className="flex-1 min-w-0">
+                        <div className="container mx-auto px-4 lg:px-8 py-6 max-w-[1600px]">
+                            {children}
+                        </div>
+                    </main>
                 </div>
             </div>
         </SidebarProvider>

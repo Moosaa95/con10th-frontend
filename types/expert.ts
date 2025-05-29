@@ -116,3 +116,21 @@ export interface IConversation {
     timestamp: string;
   }[];
 }
+
+export interface IServiceOffered {
+  id: string;
+  title: string;
+  description: string;
+  price: number;
+  client: IClient;
+  expert: Expert;
+  status: 'pending' | 'in_progress' | 'completed' | 'cancelled';
+  createdAt: string;
+  paymentStatus: 'paid' | 'unpaid';
+  deliveryDate: string;
+  client_marked_as_completed: boolean;
+  expert_marked_as_completed: boolean;
+  client_cancelled: boolean;
+  expert_cancelled: boolean;
+
+}
