@@ -16,7 +16,6 @@ import { setAuth } from "@/states/features/slices/auth/authSlice"
 export default function LoginPage() {
     const router = useRouter()
     const dispatch = useAppDispatch()
-
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
 
@@ -31,7 +30,7 @@ export default function LoginPage() {
             "last_name": "Aminu",
             "email": "khalifaumar308@gmail.com",
             "password": "Password@123",
-            "role": "expert",
+            "role": "client",
             "user_id": 11,
             "profile_complete": true,
             status: true,
@@ -39,7 +38,7 @@ export default function LoginPage() {
             console.log("RESULT", result);
             
             if (result.status){
-                // dispatch(setAuth())
+                dispatch(setAuth(result.user_id))
                 if (result.profile_complete) { //also had the checks for aggrements
                     router.push(`/${result?.role}/${result?.user_id}/dashboard`);
                 } else {

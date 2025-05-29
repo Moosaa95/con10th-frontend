@@ -3,14 +3,15 @@
 import { ColumnDef } from "@tanstack/react-table"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
-import { 
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
-import { MoreHorizontal, ArrowUpDown } from "lucide-react"
+// import { 
+//   DropdownMenu,
+//   DropdownMenuContent,
+//   DropdownMenuItem,
+//   DropdownMenuTrigger,
+// } from "@/components/ui/dropdown-menu"
+import { ArrowUpDown } from "lucide-react"
 import { IServiceOffered } from "@/types/expert"
+import Link from "next/link"
 
 export const columns: ColumnDef<IServiceOffered>[] = [
 
@@ -140,42 +141,43 @@ export const columns: ColumnDef<IServiceOffered>[] = [
     id: "actions",
     cell: ({row}) => {
       return (
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button 
-              variant="ghost" 
-              className="h-8 w-8 p-0 hover:bg-primary-100/50"
-            >
-              <span className="sr-only">Open menu</span>
-              <MoreHorizontal className="h-4 w-4 text-primary-600" />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end" className="w-[160px]">
-            <DropdownMenuItem className="text-sm text-primary-800 focus:bg-primary-100/50 focus:text-primary-900">
-              View details
-            </DropdownMenuItem>
-            <DropdownMenuItem className="text-sm text-primary-800 focus:bg-primary-100/50 focus:text-primary-900">
-              View messages
-            </DropdownMenuItem>
+        // <DropdownMenu>
+        //   <DropdownMenuTrigger asChild>
+        //     <Button
+        //       variant="ghost"
+        //       className="h-8 w-8 p-0 hover:bg-primary-100/50"
+        //     >
+        //       <span className="sr-only">Open menu</span>
+        //       <MoreHorizontal className="h-4 w-4 text-primary-600" />
+        //     </Button>
+        //   </DropdownMenuTrigger>
+        //   <DropdownMenuContent align="end" className="w-[160px]">
+        //     <DropdownMenuItem className="text-sm text-primary-800 focus:bg-primary-100/50 focus:text-primary-900">
+        //       View details
+        //     </DropdownMenuItem>
+        //     <DropdownMenuItem className="text-sm text-primary-800 focus:bg-primary-100/50 focus:text-primary-900">
+        //       View messages
+        //     </DropdownMenuItem>
 
-            {row.original.paymentStatus === "unpaid" && (
-              <DropdownMenuItem className="text-sm text-primary-800 focus:bg-primary-100/50 focus:text-primary-900">
-                Pay now
-              </DropdownMenuItem>
-            )}
-            {row.original.status === "in_progress" && (
-              <DropdownMenuItem className="text-sm text-primary-800 focus:bg-primary-100/50 focus:text-primary-900">
-                Mark as completed
-              </DropdownMenuItem>
-            )}
-            <DropdownMenuItem className="text-sm text-primary-800 focus:bg-primary-100/50 focus:text-primary-900">
-              Open Dispute
-            </DropdownMenuItem>
-            <DropdownMenuItem className="text-sm text-red-600 focus:bg-red-50 focus:text-red-700">
-              Cancel request
-            </DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
+        //     {row.original.paymentStatus === "unpaid" && (
+        //       <DropdownMenuItem className="text-sm text-primary-800 focus:bg-primary-100/50 focus:text-primary-900">
+        //         Pay now
+        //       </DropdownMenuItem>
+        //     )}
+        //     {row.original.status === "in_progress" && (
+        //       <DropdownMenuItem className="text-sm text-primary-800 focus:bg-primary-100/50 focus:text-primary-900">
+        //         Mark as completed
+        //       </DropdownMenuItem>
+        //     )}
+        //     <DropdownMenuItem className="text-sm text-primary-800 focus:bg-primary-100/50 focus:text-primary-900">
+        //       Open Dispute
+        //     </DropdownMenuItem>
+        //     <DropdownMenuItem className="text-sm text-red-600 focus:bg-red-50 focus:text-red-700">
+        //       Cancel request
+        //     </DropdownMenuItem>
+        //   </DropdownMenuContent>
+        // </DropdownMenu>
+        <Link href={`requests/${row.original.id}`} className="">Open</Link>
       )
     },
   },

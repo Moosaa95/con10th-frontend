@@ -4,8 +4,12 @@ import { ReactNode } from "react";
 import DashboardNavbar from "./dashboard-components/DashNav";
 import DashboardSidebar from "./dashboard-components/Sidebar";
 import { SidebarProvider } from "@/states/sidebar-context";
+import useAuth from "@/hooks/use-auth";
+import { selectUserId } from "@/states/features/slices/auth/authSlice";
 
 export default function Layout({ children }: { children: ReactNode }) {
+    const { isAuthenticated, fetchUserProfile } = useAuth()
+    // Fetch user profile if authenticated
     return (
         <SidebarProvider>
             <div className="min-h-screen bg-[#F9FAFB] flex flex-col">
