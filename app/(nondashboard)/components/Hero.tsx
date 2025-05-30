@@ -5,12 +5,12 @@ import { SearchIcon } from "lucide-react"
 import Image from "next/image"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import { Typography } from "@/components/ui/typography/Typography"
 import Link from "next/link"
+import { Typography } from "@/components/ui/typography/Typography"
 
 export default function Hero() {
   return (
-    <div className="relative min-h-[670px] flex flex-col justify-center   bg-primary-700 overflow-hidden px-4 py-8 md:py-12 lg:py-[93px] lg:pl-[123px] lg:pr-[128.09px]">
+    <div className="relative min-h-[670px] flex flex-col justify-center bg-primary-700 overflow-hidden px-4 py-8 md:py-12 lg:py-[93px] lg:pl-[123px] lg:pr-[128.09px]">
       {/* first section */}
       <div className="flex flex-col items-center  lg:flex-row lg:justify-between">
         {/* Left images - hidden on mobile */}

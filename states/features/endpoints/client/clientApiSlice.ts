@@ -1,4 +1,5 @@
 import { apiSlice } from "@/states/services/apiSlice";
+import { IServiceOffered } from "@/types/expert";
 
 export interface ClientProfile {
   id: string
@@ -67,6 +68,18 @@ const clientApiSlice = apiSlice.injectEndpoints({
                 body
             })
         }),
+        getClientRequests: builder.query<IServiceOffered[], string>({
+              query: (clientId) => ({
+                url: `/clients/${clientId}/requests`,
+                method: 'GET',
+              }),
+            }),
+            createClientRequest: builder.mutation<IServiceOffered, { clientId: string; request: Partial<IServiceOffered> }>({
+              query: ({ clientId, request }) => ({
+                url: `/clients/${clientId}/requests`,
+                method: 'POST',
+                body: request,
+              }),            }),
     }),
 });
 
@@ -74,5 +87,7 @@ export const {
     useGetClientProfileMutation,
     useUpdateClientProfileDetailsMutation,
     useUpdateClientProfilePictureMutation,
-    useFetchClientServiceRequestSummaryMutation
+    useFetchClientServiceRequestSummaryMutation,
+    useGetClientRequestsQuery,
+    useCreateClientRequestMutation,
 } = clientApiSlice;

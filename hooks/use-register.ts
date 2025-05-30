@@ -64,20 +64,16 @@ export default function useRegister() {
 		}
 	});
 
-	console.log("FORM", form)
-
 	const handleNext = async () => {
 		const isValid = await form.trigger();
 		if (isValid) {
 		  const currentValues = form.getValues();
 		  setFormData(prev => ({ ...prev, ...currentValues }));
 		  setCurrentStep(prev => prev + 1);
-		  
 		}
 		console.log("FORM NEXT", formData);
 		
 	};
-
 
 	const handleBack = () => {
 		setCurrentStep(prev => Math.max(prev - 1, 1));
@@ -89,15 +85,17 @@ export default function useRegister() {
 			...formData,
 			password: finalData.password
 			};
-		
-			const {message, status, user_email} = await register(completeData).unwrap();
+			console.log("Final Data: ", completeData);
+			// const {message, status, user_email} = await register(completeData).unwrap();
+			const values = await register(completeData).unwrap();
+
 			
-			if (status) {
-				localStorage.setItem("pendingVerificationEmail", user_email)
+			if (values) {
+				localStorage.setItem("pendingVerificationEmail", formData.email);
 				router.push('/auth/verify-otp');
 			}
 			else {
-				toast.error(message)
+				toast.error('Failed to register account');
 			}
 		} catch (error) {
 			console.error("Registration error:", error); // Add error logging

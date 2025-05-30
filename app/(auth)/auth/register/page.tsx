@@ -12,8 +12,6 @@ import { Suspense } from "react"
 function RegisterInner() {
     const { form, currentStep, isLoading, handleNext, handleBack, onSubmit } = useRegister();
 
-
-
     return (
         <div className="container mx-auto ">
         {currentStep > 1 && (

@@ -27,14 +27,13 @@ function getCookie(name: string): string | null {
 const mutex = new Mutex(); // to prevent race conditions
 
 const baseQuery = fetchBaseQuery({
-    baseUrl: `${process.env.NEXT_PUBLIC_HOST}/api`,
+    baseUrl: `${process.env.NEXT_PUBLIC_HOST}/`,
     credentials: 'include',
     prepareHeaders: async (headers, {getState}) => {
         
         const csrftoken = getCookie('csrftoken');
         if (csrftoken) {
             headers.set('X-CSRFToken', csrftoken);
-            
         }
 
     

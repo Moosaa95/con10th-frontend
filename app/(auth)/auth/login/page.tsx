@@ -16,7 +16,6 @@ import { setAuth } from "@/states/features/slices/auth/authSlice"
 export default function LoginPage() {
     const router = useRouter()
     const dispatch = useAppDispatch()
-
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
 
@@ -25,11 +24,21 @@ export default function LoginPage() {
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault()
         try {
-            const result = await login({email, password}).unwrap()
+          // const result = await login({email, password}).unwrap()
+          const result = {
+            "first_name": "Umar",
+            "last_name": "Aminu",
+            "email": "khalifaumar308@gmail.com",
+            "password": "Password@123",
+            "role": "client",
+            "user_id": 11,
+            "profile_complete": true,
+            status: true,
+          }
             console.log("RESULT", result);
             
             if (result.status){
-                // dispatch(setAuth())
+                dispatch(setAuth(result.user_id))
                 if (result.profile_complete) { //also had the checks for aggrements
                     router.push(`/${result?.role}/${result?.user_id}/dashboard`);
                 } else {
@@ -88,7 +97,7 @@ export default function LoginPage() {
 
           <div className="text-center mt-4">
             <p className="text-gray-600">
-              Don't have an account?{" "}
+              Don`&lsquo;`t have an account?{" "}
               <Link href="/auth/register" className="text-orange-500 hover:text-orange-600 font-medium">
                 Register
               </Link>

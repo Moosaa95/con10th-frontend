@@ -11,90 +11,91 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { ExpertList } from './ExpertList';
 import { Pagination } from '@/components/ui/pagination';
 import SearchInput from './SearchInput';
-import { useFetchExperts } from '@/hooks/useExpertProfile';
+// import { useFetchExperts } from '@/hooks/useExpertProfile';
+import { experts } from '@/testData';
 
 export default function SearchResults() {
    
-  const [experts, setExperts] = useState([])
+  // const [experts, setExperts] = useState([])
   const [currentPage, setCurrentPage] = useState(1)
   const expertsPerPage = 6
 
   // Initialize filters and search
   const { filters, updateFilter, resetFilters } = useFilters()
   const { searchQuery, setSearchQuery, searchResults } = useSearch(experts)
-  const { fetchExperts, data, isLoading, error } = useFetchExperts();
+  // const { fetchExperts, data, isLoading, error } = useFetchExperts();
 
-  const getApiFilters = () => {
-    const apiFilters:Filters = {};
+  // const getApiFilters = () => {
+  //   const apiFilters:Filters = {};
     
-    // Handle availability
-    if (filters.availability === "open") {
-      apiFilters.availability = true;
-    } else if (filters.availability === "busy") {
-      apiFilters.availability = false;
-    }
+  //   // Handle availability
+  //   if (filters.availability === "open") {
+  //     apiFilters.availability = true;
+  //   } else if (filters.availability === "busy") {
+  //     apiFilters.availability = false;
+  //   }
     
-    // Handle experience level
-    if (filters.experience && filters.experience.length > 0 && !filters.experience.includes("all")) {
-      const experienceLevels = {
-        "beginner": { min: 0, max: 2 },
-        "intermediate": { min: 2, max: 5 },
-        "expert": { min: 5, max: 100 }
-      };
+  //   // Handle experience level
+  //   if (filters.experience && filters.experience.length > 0 && !filters.experience.includes("all")) {
+  //     const experienceLevels = {
+  //       "beginner": { min: 0, max: 2 },
+  //       "intermediate": { min: 2, max: 5 },
+  //       "expert": { min: 5, max: 100 }
+  //     };
       
-      // Use the minimum years for the lowest selected level
-      const selectedLevels = filters.experience.filter(level => level !== "all");
-      const lowestLevel = selectedLevels.reduce((lowest, level) => {
-        if (experienceLevels[level].min < experienceLevels[lowest].min) {
-          return level;
-        }
-        return lowest;
-      }, selectedLevels[0]);
+  //     // Use the minimum years for the lowest selected level
+  //     const selectedLevels = filters.experience.filter(level => level !== "all");
+  //     const lowestLevel = selectedLevels.reduce((lowest, level) => {
+  //       if (experienceLevels[level].min < experienceLevels[lowest].min) {
+  //         return level;
+  //       }
+  //       return lowest;
+  //     }, selectedLevels[0]);
       
-      apiFilters.years_of_experience = experienceLevels[lowestLevel].min;
-    }
+  //     apiFilters.years_of_experience = experienceLevels[lowestLevel].min;
+  //   }
     
-    // Handle rating
-    if (filters.rating && filters.rating.length > 0 && !filters.rating.includes("all")) {
-      // Extract minimum rating from the lowest selected rating filter
-      const minRating = Math.min(...filters.rating.map((r) => Number.parseInt(r.split("-")[0])));
-      apiFilters.min_rating = minRating;
-    }
+  //   // Handle rating
+  //   if (filters.rating && filters.rating.length > 0 && !filters.rating.includes("all")) {
+  //     // Extract minimum rating from the lowest selected rating filter
+  //     const minRating = Math.min(...filters.rating.map((r) => Number.parseInt(r.split("-")[0])));
+  //     apiFilters.min_rating = minRating;
+  //   }
     
-    // Handle category
-    if (filters.category && filters.category !== "all") {
-      apiFilters.category = filters.category;
-    }
+  //   // Handle category
+  //   if (filters.category && filters.category !== "all") {
+  //     apiFilters.category = filters.category;
+  //   }
     
-    // Handle skills
-    if (filters.skills && filters.skills !== "all") {
-      apiFilters.skills = [filters.skills]; // Expects an array of skill IDs
-    }
+  //   // Handle skills
+  //   if (filters.skills && filters.skills !== "all") {
+  //     apiFilters.skills = [filters.skills]; // Expects an array of skill IDs
+  //   }
     
-    // Handle location
-    if (filters.location && filters.location.trim() !== "") {
-      apiFilters.location = filters.location.trim();
-    }
+  //   // Handle location
+  //   if (filters.location && filters.location.trim() !== "") {
+  //     apiFilters.location = filters.location.trim();
+  //   }
     
-    return apiFilters;
-  };
+  //   return apiFilters;
+  // };
 
   // Load experts data
-  useEffect(() => {
+  // useEffect(() => {
     
-    const apiFilters = getApiFilters();
+  //   const apiFilters = getApiFilters();
     
-    fetchExperts(apiFilters);
-  }, [])
+  //   fetchExperts(apiFilters);
+  // }, [])
 
-  useEffect(() => {
-    if (data && data.data) {
-      setExperts(data.data);
-    }
-  }, [data]);
+  // useEffect(() => {
+  //   if (data ) {
+  //     setExperts(data);
+  //   }
+  // }, [data]);
 
 
-  console.log("EXPERTS", data, 'api filters', experts);
+  // console.log("EXPERTS", data, 'api filters', experts);
 
   
 
@@ -127,14 +128,14 @@ export default function SearchResults() {
 
         <div className="grid grid-cols-1 gap-6 md:grid-cols-4">
           {/* Sidebar Filters */}
-          <div className="md:col-span-1">
+          {/* <div className="md:col-span-1">
             <ExpertFilters filters={filters} updateFilter={updateFilter} resetFilters={resetFilters} />
-          </div>
+          </div> */}
 
           {/* Main Content */}
           <div className="md:col-span-3">
             <SearchHeader />
-            <SearchInput />
+            <SearchInput value='' onChange={()=>{}} />
 
             {/* Results count */}
             <div className="mb-4 text-[#8292aa]">
@@ -143,18 +144,19 @@ export default function SearchResults() {
             </div>
 
             {/* Expert Cards Grid */}
-            <ExpertList experts={currentExperts} />
+            <ExpertList experts={experts} />
 
             {/* Pagination */}
             {searchResults.length > 0 ? (
-              <Pagination
-                className="mt-8"
-                currentPage={currentPage}
-                totalPages={totalPages}
-                onPageChange={paginate}
-                prevPage={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
-                nextPage={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
-              />
+              // <Pagination
+              //   className="mt-8"
+              //   currentPage={1}
+              //   totalPages={totalPages}
+              //   onPageChange={paginate}
+              //   prevPage={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+              //   nextPage={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
+            // />
+            <div>Pagination</div>
             ) : (
               <Card className="mt-8 text-center py-12 bg-white">
                 <CardContent className="pt-6">

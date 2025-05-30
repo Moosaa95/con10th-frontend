@@ -1,173 +1,148 @@
 "use client";
-import { useState } from 'react';
+
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
-import DynamicTable from '@/app/(dashboard)/dashboard-components/Table';
+import { columns } from "./components/columns";
+import { DataTable } from "./components/data-table";
+import { Button } from '@/components/ui/button';
+import useAuth from '@/hooks/use-auth';
+import { RequestsSkeleton } from './components/request-skeleton';
+import { useGetClientRequestsQuery } from '@/states/features/endpoints/client/clientApiSlice';
+import { serviceOfferedData } from '@/testData';
 
-
-interface Order {
-  id: string;
-  expertName: string;
-  serviceOrdered: string;
-  price: number;
-  status: string;
-  orderDate: string;
-  deliveryDeadline: string;
-}
 
 export default function OrdersPage() {
-  // State for pagination
-  const [currentPage, setCurrentPage] = useState(1);
-  
-  
-  const ordersData: Order[] = [
-    {
-      id: '#ORD1234',
-      expertName: 'John Doe',
-      serviceOrdered: 'Logo Design',
-      price: 150,
-      status: 'In Progress',
-      orderDate: 'Mar 10, 2025',
-      deliveryDeadline: 'Mar 15, 2025',
-    },
-    {
-      id: '#ORD1235',
-      expertName: 'Jane Smith',
-      serviceOrdered: 'Website Design',
-      price: 500,
-      status: 'Cancelled',
-      orderDate: 'Mar 8, 2025',
-      deliveryDeadline: 'Mar 14, 2025',
-    },
-    {
-      id: '#ORD1236',
-      expertName: 'Mike Brown',
-      serviceOrdered: 'Video Editing',
-      price: 250,
-      status: 'New Order',
-      orderDate: 'Mar 9, 2025',
-      deliveryDeadline: 'Mar 13, 2025',
-    },
-    {
-      id: '#ORD1237',
-      expertName: 'Victor Sule',
-      serviceOrdered: 'Social Media Ads',
-      price: 200,
-      status: 'Completed',
-      orderDate: 'Mar 7, 2025',
-      deliveryDeadline: 'Mar 13, 2025',
-    },
-    {
-      id: '#ORD1238',
-      expertName: 'Sarah Johnson',
-      serviceOrdered: 'Graphic Design',
-      price: 150,
-      status: 'Completed',
-      orderDate: 'Mar 7, 2025',
-      deliveryDeadline: 'Mar 12, 2025',
-    },
-  ];
+  const { user } = useAuth();
+  const { 
+    data, 
+    isLoading, 
+    isError 
+  } = useGetClientRequestsQuery(user?.id ?? '', {
+    skip: !user?.id
+  });
+
+  if (isLoading) {
+    return <RequestsSkeleton />;
+  }
+
+  // if (!serviceOfferedData || isError) {
+  //   return isError ? (
+  //     <div className="container mx-auto px-4 sm:px-6 py-4 sm:py-6">
+  //       <div className="text-center">
+  //         <h2 className="text-lg sm:text-xl font-semibold text-red-600 mb-4">
+  //           Error Loading Service Requests
+  //         </h2>
+  //         <p className="text-gray-500 mb-6">
+  //           There was an error loading your service requests. Please try again later.
+  //         </p>
+  //         <Button
+  //           className="bg-secondary-700 text-white hover:bg-secondary-800 transition-colors"
+  //           onClick={() => {/* TODO: Implement retry logic */}}
+  //         >
+  //           Retry
+  //         </Button>
+  //       </div>
+  //     </div>
+  //   ):(
+  //     <div className="container mx-auto px-4 sm:px-6 py-4 sm:py-6">
+  //       <div className="text-center">
+  //         <h2 className="text-lg sm:text-xl font-semibold text-gray-900 mb-4">
+  //           No Service Requests Found
+  //         </h2>
+  //         <p className="text-gray-500 mb-6">
+  //           You haven`&apos;`t made any service requests yet. Start by requesting a new service.
+  //         </p>
+  //         <Button
+  //           className="bg-secondary-700 text-white hover:bg-secondary-800 transition-colors"
+  //           onClick={() => {/* TODO: Implement new service request */}}
+  //         >
+  //           Request New Service
+  //         </Button>
+  //       </div>
+  //     </div>
+  //   );
+  // }
 
   // Count orders by status
-  const orderCounts = {
-    total: ordersData.length,
-    completed: ordersData.filter(order => order.status === 'Completed').length,
-    active: ordersData.filter(order => order.status === 'In Progress' || order.status === 'New Order').length,
-    cancelled: ordersData.filter(order => order.status === 'Cancelled').length,
+  const serviceStats = {
+    total: serviceOfferedData!.length,
+    completed: serviceOfferedData!.filter(service => service.status === 'completed').length,
+    active: serviceOfferedData!.filter(service => ['pending', 'in_progress'].includes(service.status)).length,
+    cancelled: serviceOfferedData!.filter(service => service.status === 'cancelled').length,
   };
 
-  
-  const columns = [
-    { header: 'Order ID', accessorKey: 'id' },
-    { header: 'Expert Name', accessorKey: 'expertName' },
-    { header: 'Service Ordered', accessorKey: 'serviceOrdered' },
-    { 
-      header: 'Price', 
-      accessorKey: 'price',
-      cell: (value:any) => `$${value}` 
-    },
-    { 
-      header: 'Status', 
-      accessorKey: 'status',
-      cell: (value:any) => {
-        const styles = {
-          'In Progress': 'bg-yellow-100 text-yellow-800',
-          'Completed': 'bg-green-100 text-green-800',
-          'Cancelled': 'bg-red-100 text-red-800',
-          'New Order': 'bg-blue-100 text-blue-800',
-        };
-        
-        return <Badge className={styles[value as keyof typeof styles] || ''}>{value}</Badge>;
-      }
-    },
-    { header: 'Order Date', accessorKey: 'orderDate' },
-    { header: 'Delivery Deadline', accessorKey: 'deliveryDeadline' },
-  ];
-
-  const actions = [
-    {
-      label: 'Open',
-      onClick: (row:any) => {
-        console.log('Open order:', row.id);
-        // Handle opening the order details
-      },
-    },
-  ];
-
   return (
-    <div className="container mx-auto p-6">
-      <h1 className="text-2xl font-bold mb-6">Orders</h1>
-      
-      <h2 className="text-xl font-semibold mb-4">Orders Summary</h2>
-      
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
-        <Card>
-          <CardHeader className="pb-2">
-            <CardTitle className="text-4xl font-bold">{orderCounts.total}</CardTitle>
+    <div className="container mx-auto px-4 sm:px-6 py-4 sm:py-6 space-y-4 sm:space-y-6">
+      <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
+        <Card className="shadow-sm hover:shadow-md transition-shadow">
+          <CardHeader className="pb-2 space-y-0">
+            <CardTitle className="text-xs sm:text-sm font-medium text-primary-600">
+              Total Requests
+            </CardTitle>
           </CardHeader>
           <CardContent>
-            <p className="text-gray-500">Total Orders</p>
+            <div className="text-lg sm:text-2xl font-bold text-primary-900">
+              {serviceStats.total}
+            </div>
           </CardContent>
         </Card>
-        
-        <Card>
-          <CardHeader className="pb-2">
-            <CardTitle className="text-4xl font-bold">{orderCounts.completed}</CardTitle>
+        <Card className="shadow-sm hover:shadow-md transition-shadow">
+          <CardHeader className="pb-2 space-y-0">
+            <CardTitle className="text-xs sm:text-sm font-medium text-primary-600">
+              Active Requests
+            </CardTitle>
           </CardHeader>
           <CardContent>
-            <p className="text-gray-500">Completed Orders</p>
+            <div className="text-lg sm:text-2xl font-bold text-blue-600">
+              {serviceStats.active}
+            </div>
           </CardContent>
         </Card>
-        
-        <Card>
-          <CardHeader className="pb-2">
-            <CardTitle className="text-4xl font-bold">{orderCounts.active}</CardTitle>
+        <Card className="shadow-sm hover:shadow-md transition-shadow">
+          <CardHeader className="pb-2 space-y-0">
+            <CardTitle className="text-xs sm:text-sm font-medium text-primary-600">
+              Completed Requests
+            </CardTitle>
           </CardHeader>
           <CardContent>
-            <p className="text-gray-500">Active Orders</p>
+            <div className="text-lg sm:text-2xl font-bold text-green-600">
+              {serviceStats.completed}
+            </div>
           </CardContent>
         </Card>
-        
-        <Card>
-          <CardHeader className="pb-2">
-            <CardTitle className="text-4xl font-bold">{orderCounts.cancelled}</CardTitle>
+        <Card className="shadow-sm hover:shadow-md transition-shadow">
+          <CardHeader className="pb-2 space-y-0">
+            <CardTitle className="text-xs sm:text-sm font-medium text-primary-600">
+              Cancelled Requests
+            </CardTitle>
           </CardHeader>
           <CardContent>
-            <p className="text-gray-500">Cancelled Orders</p>
+            <div className="text-lg sm:text-2xl font-bold text-red-600">
+              {serviceStats.cancelled}
+            </div>
           </CardContent>
         </Card>
       </div>
-      
-      <h2 className="text-xl font-semibold mb-4">Orders</h2>
-      
-      <DynamicTable
-        data={ordersData}
-        columns={columns}
-        actions={actions}
-        currentPage={currentPage}
-        totalPages={1} // In a real app, calculate based on total records and page size
-        onPageChange={setCurrentPage}
-      />
+
+      <Card className="shadow-sm overflow-hidden">
+        <CardHeader className="bg-white border-b border-primary-100">
+          <CardTitle className='text-lg sm:text-xl text-primary-900 font-bold'>
+            <div className='flex items-center justify-between'>
+              <p>Service Requests</p>
+              <Button 
+                className='bg-secondary-700 text-white hover:bg-secondary-800 transition-colors'
+                onClick={() => {/* TODO: Implement new service request */}}
+              >
+                Request New Service
+              </Button>
+            </div>
+          </CardTitle>
+        </CardHeader>
+        <CardContent className="p-0 sm:p-6">
+          <div className="overflow-auto">
+            <DataTable columns={columns} data={serviceOfferedData!} />
+          </div>
+        </CardContent>
+      </Card>
     </div>
   );
 }
