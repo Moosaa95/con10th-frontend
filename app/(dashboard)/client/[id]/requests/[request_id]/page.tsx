@@ -256,6 +256,12 @@ export default function RequestPage() {
         <div className="grid grid-cols1 md:grid-cols-3 gap-6">
           <div className="col-span-2 flex flex-col gap-4">
             <StatusBadge status={service.status} />
+            {service.status === "cancelled" && (
+              //Add Cancelation reason
+              <div className="text-red-600 text-sm">
+                This order has been cancelled. Please contact support for more information.
+              </div>
+            )}
             <h1 className="text-2xl font-bold">
               {service.title}
             </h1>
