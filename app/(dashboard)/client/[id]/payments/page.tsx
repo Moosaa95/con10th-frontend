@@ -1,66 +1,30 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import DynamicTable from '@/app/(dashboard)/dashboard-components/Table';
-
-interface Payment {
-  id: string;
-  serviceSold: string;
-  expertName: string;
-  amountPaid: number;
-  datePaid: string;
-  status: string;
-}
+import { paymentsData } from '@/testData';
 
 export default function PaymentsPage() {
-  // State for pagination
+  // Pagination state
   const [currentPage, setCurrentPage] = useState(1);
-  
-  const paymentsData: Payment[] = [
-    {
-      id: '#202503010A',
-      serviceSold: 'Logo Design',
-      expertName: 'Boye Wonoluko',
-      amountPaid: 150,
-      datePaid: 'Mar 10, 2025',
-      status: 'Paid',
-    },
-    {
-      id: '#202503009B',
-      serviceSold: 'Landing Page Design',
-      expertName: 'Boye Koala',
-      amountPaid: 150,
-      datePaid: 'Mar 9, 2025',
-      status: 'Pending',
-    },
-    {
-      id: '#202503008C',
-      serviceSold: 'UI/UX Review',
-      expertName: 'Victor Made',
-      amountPaid: 150,
-      datePaid: 'Mar 8, 2025',
-      status: 'Paid',
-    },
-    {
-      id: '#202503007D',
-      serviceSold: 'Video Editing',
-      expertName: 'Musa Sule',
-      amountPaid: 150,
-      datePaid: 'Mar 8, 2025',
-      status: 'Paid',
-    },
-    {
-      id: '#202503007D',
-      serviceSold: 'Website Design',
-      expertName: 'Alex Mercer',
-      amountPaid: 150,
-      datePaid: 'Mar 8, 2025',
-      status: 'Paid',
-    },
-  ];
+  const [pageSize, setPageSize] = useState(10);
 
-  // Count payments by status
+
+
+  // Calculate pagination
+  const totalItems = paymentsData.length;
+  const totalPages = Math.ceil(totalItems / pageSize);
+
+  // Get current page data
+  const currentData = useMemo(() => {
+    const start = (currentPage - 1) * pageSize;
+    const end = start + pageSize;
+    return paymentsData.slice(start, end);
+  }, [currentPage, pageSize]);
+
+  // Count payments by status and calculate totals
   const paymentCounts = {
     totalSpent: 0,
     paidToExperts: 0,
@@ -76,6 +40,15 @@ export default function PaymentsPage() {
       paymentCounts.pendingPayouts += payment.amountPaid;
     }
   });
+
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page);
+  };
+
+  const handlePageSizeChange = (size: number) => {
+    setPageSize(size);
+    setCurrentPage(1); // Reset to first page when changing page size
+  };
 
   const columns = [
     { header: 'Order ID', accessorKey: 'id' },
@@ -101,7 +74,6 @@ export default function PaymentsPage() {
     },
   ];
 
-  
   const actions = [
     {
       label: 'View',
@@ -121,7 +93,7 @@ export default function PaymentsPage() {
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
         <Card>
           <CardHeader className="pb-2">
-            <CardTitle className="text-4xl font-bold">0</CardTitle>
+            <CardTitle className="text-4xl font-bold">${paymentCounts.totalSpent}</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="flex items-center">
@@ -138,7 +110,7 @@ export default function PaymentsPage() {
         
         <Card>
           <CardHeader className="pb-2">
-            <CardTitle className="text-4xl font-bold">0</CardTitle>
+            <CardTitle className="text-4xl font-bold">${paymentCounts.paidToExperts}</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="flex items-center">
@@ -163,7 +135,7 @@ export default function PaymentsPage() {
           </CardHeader>
           <CardContent>
             <div className="flex items-center flex-col">
-            <CardTitle className="text-4xl font-bold">0</CardTitle>
+              <CardTitle className="text-4xl font-bold">${paymentCounts.pendingPayouts}</CardTitle>
               <p className="text-gray-500">Pending Payouts</p>
             </div>
           </CardContent>
@@ -192,21 +164,15 @@ export default function PaymentsPage() {
       <h2 className="text-xl font-semibold mb-4">Transaction History</h2>
       
       <DynamicTable
-        data={paymentsData}
+        data={currentData}
         columns={columns}
         actions={actions}
         currentPage={currentPage}
-        totalPages={1}
-        onPageChange={setCurrentPage}
+        totalPages={totalPages}
+        onPageChange={handlePageChange}
+        pageSize={pageSize}
+        onPageSizeChange={handlePageSizeChange}
       />
-      
-      <div className="flex justify-between mt-4 items-center">
-        <div>
-          <button className="px-4 py-2 bg-gray-100 text-gray-700 rounded mr-2">Previous</button>
-          <button className="px-4 py-2 bg-gray-100 text-gray-700 rounded">Next</button>
-        </div>
-        <div className="text-gray-500">Page 1</div>
-      </div>
     </div>
   );
 }

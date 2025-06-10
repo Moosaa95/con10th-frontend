@@ -1,10 +1,33 @@
-// @ts-nocheck
 "use client"
 
 import { Heart, MoreHorizontal } from "lucide-react"
 import Image from "next/image"
 
-export default function WorkDetail({project, isLiked, onToggleLike}) {
+interface Skill {
+  name: string;
+}
+
+interface DetailImage {
+  url: string;
+  caption?: string;
+}
+
+interface Section {
+  title: string;
+  content: string;
+}
+
+interface Project {
+  id: string;
+  title: string;
+  skills: Skill[];
+  description: string;
+  image?: string;
+  detailImages?: DetailImage[];
+  sections?: Section[];
+}
+
+const WorkDetail = ({ project, isLiked, onToggleLike }: { project: Project; isLiked: boolean; onToggleLike: () => void }) => {
     console.log("HEY", project, isLiked, onToggleLike)
     return (
         <div>
@@ -30,7 +53,7 @@ export default function WorkDetail({project, isLiked, onToggleLike}) {
                     key={index}
                     className="px-3 py-1 text-xs rounded-full border border-orange-200 text-orange-500 bg-white"
                 >
-                    {skill}
+                    {skill.name}
                 </span>
                 ))}
             </div>
@@ -82,3 +105,4 @@ export default function WorkDetail({project, isLiked, onToggleLike}) {
         </div>
     )
 }
+export default WorkDetail

@@ -31,20 +31,21 @@ const authApiSlice = apiSlice.injectEndpoints({
 				password,
 				role,
 			}) => ({
-				url: '/register',
+				url: '/users',
 				method: 'POST',
 				body: { first_name, last_name, email, password, role},
 			}),
 			invalidatesTags: ["Auth", "User"],
 			async onQueryStarted(arg, { dispatch, queryFulfilled }) {
-                try {
-                  await queryFulfilled;
-                  dispatch(setAuth());
-                  console.log('Logged in successfully');
-                } catch (err) {
-                  console.error('Failed to login');
-                }
-            }
+				try {
+					await queryFulfilled;
+					dispatch(setAuth());
+					console.log('Logged in successfully');
+				} catch (err) {
+			
+					console.error(`Failed to login`, err);
+				}
+       }
 		}),
 		
 		logout: builder.mutation({

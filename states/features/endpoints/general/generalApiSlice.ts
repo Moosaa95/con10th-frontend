@@ -1,4 +1,5 @@
 import { apiSlice } from "@/states/services/apiSlice";
+import { Expert } from "@/types/expert";
 
 
 
@@ -50,10 +51,10 @@ const expertApiSlice = apiSlice.injectEndpoints({
             }),
         }),
 
-        fetchExpert: builder.mutation<CategoriesProps, void>({
+    fetchExpert: builder.query<Expert[], void>({
           query: (body) => ({
-            url: '/fetch_experts',
-            method: 'POST',
+            url: '/experts',
+            method: 'GET',
             body
           }),
         }),
@@ -85,5 +86,5 @@ const expertApiSlice = apiSlice.injectEndpoints({
 export const {
     useGetPopularCategoriesMutation,
     useFetchCategoriesMutation,
-    useFetchExpertMutation
+    useFetchExpertQuery
 } = expertApiSlice;
